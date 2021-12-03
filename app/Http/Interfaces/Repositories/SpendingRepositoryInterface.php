@@ -2,13 +2,11 @@
 
 namespace App\Http\Interfaces\Repositories;
 
-interface RevenueRepositoryInterface
+interface SpendingRepositoryInterface
 {
-    public function getAllRevenues();
+    public function getAllSpendings();
 
-    public function getRevenueById(int $revenue);
+    public function getSpendingById(int $spending);
 
-    public function getInstallmentsByRevenue(int $revenue);
-
-    public function saveRevenue(array $revenue);
+    public function saveSpending(array $spending);
 }

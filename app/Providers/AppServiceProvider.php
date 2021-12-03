@@ -24,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
         // Binds Event Expenses
         $this->app->bind(\App\Http\Interfaces\Services\EventRevenueServiceInterface::class, \App\Http\Services\EventRevenueService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\EventRevenueRepositoryInterface::class, \App\Http\Repositories\EventRevenueRepository::class);
+
+        // Binds Spending Limits
+        $this->app->bind(\App\Http\Interfaces\Services\SpendingServiceInterface::class, \App\Http\Services\SpendingService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\SpendingRepositoryInterface::class, \App\Http\Repositories\SpendingRepository::class);
     }
 }

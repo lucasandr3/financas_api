@@ -2,13 +2,13 @@
 
 namespace App\Http\Interfaces\Services;
 
-interface RevenueServiceInterface
+interface SpendingServiceInterface
 {
-    public function allRevenues();
+    public function allSpendings();
 
-    public function getRevenue(int $revenue);
+    public function getSpending(int $spending);
 
-    public function getInstallments(int $revenue);
+    public function getExpenses(int $spending);
 
-    public function newRevenue(array $resquest);
+    public function newSpending(array $resquest);
 }

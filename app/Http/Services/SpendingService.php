@@ -3,131 +3,98 @@
 namespace App\Http\Services;
 
 use App\Helpers\Helpers;
-use App\Http\Interfaces\Repositories\RevenueRepositoryInterface;
-use App\Http\Interfaces\Services\RevenueServiceInterface;
+use App\Http\Interfaces\Repositories\SpendingRepositoryInterface;
+use App\Http\Interfaces\Services\ExpenseServiceInterface;
+use App\Http\Interfaces\Services\SpendingServiceInterface;
 use Illuminate\Support\Facades\Validator;
 
-class RevenueService implements RevenueServiceInterface
+class SpendingService implements SpendingServiceInterface
 {
     private $repository;
+    private $expenseService;
 
-    public function __construct(RevenueRepositoryInterface $repository)
+    public function __construct
+    (
+        SpendingRepositoryInterface $repository,
+        ExpenseServiceInterface $expenseService
+    )
     {
         $this->repository = $repository;
+        $this->expenseService = $expenseService;
     }
 
-    public function allRevenues()
+    public function allSpendings()
     {
-        $revenues = $this->repository->getAllRevenues();
+        $spendings = $this->repository->getAllSpendings();
 
-        $revenues = array_map(function($revenue) {
-            $revenue->value = Helpers::formatMoney($revenue->value);
-            $revenue->installments = ($revenue->installments === 0) ? 'Recebimento único' : 'Parcelado';
-            $revenue->installments_object = ($revenue->installments !== 0) ? $this->getInstallmentsAll($revenue->id) : null;
-            return $revenue;
-        }, $revenues);
+        $spendings = array_map(function($spending) {
+            $spending->limit_value = Helpers::formatMoney($spending->limit_value);
+            $spending->percent_alert = $spending->percent_alert . "%";
+            $spending->final_date_spending = Helpers::formatDateSimple($spending->final_date_spending);
+            $spending->total_expenses = Helpers::formatMoney($this->expenseService->getTotalExpensesByCategory($spending->category_spending_limit));
+            $spending->expenses = $this->expenseService->getExpenseByCategory($spending->category_spending_limit);
+            return $spending;
+        }, $spendings);
 
-        return $revenues;
+        return $spendings;
     }
 
-    public function getRevenue(int $revenue)
+    public function getSpending(int $spending)
     {
-        $revenueObject = $this->repository->getRevenueById($revenue);
+        $spendingObject = $this->repository->getSpendingById($spending);
 
-        if(!sizeof($revenueObject) > 0) {
-            return ['code' => 204, 'message' => 'Receita não existe, verifique se o valor que está passando está correto'];
+        if(!sizeof($spendingObject) > 0) {
+            return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
         }
 
+        $spendingObject = array_map(function($spendingObj) {
+            $spendingObj->limit_value = Helpers::formatMoney($spendingObj->limit_value);
+            $spendingObj->percent_alert = $spendingObj->percent_alert . "%";
+            $spendingObj->final_date_spending = Helpers::formatDateSimple($spendingObj->final_date_spending);
+            $spendingObj->total_expenses = Helpers::formatMoney($this->expenseService->getTotalExpensesByCategory($spendingObj->category_spending_limit));
+            $spendingObj->expenses = $this->expenseService->getExpenseByCategory($spendingObj->category_spending_limit);
+            return $spendingObj;
+        }, $spendingObject);
 
-        if($revenueObject[0]->installments === 0) {
-
-            $revenueObject = array_map(function($revenueObj) {
-                $revenueObj->value = Helpers::formatMoney($revenueObj->value);
-                $revenueObj->installments = ($revenueObj->installments === 0) ? 'Recebimento único' : 'Parcelado';
-                return $revenueObj;
-            }, $revenueObject);
-
-        } else {
-
-            $installments = $this->getInstallments($revenue);
-
-            $revenueObject = array_map(function($revenueObj) use ($installments) {
-                $revenueObj->value = Helpers::formatMoney($revenueObj->value);
-                $revenueObj->installments = ($revenueObj->installments === 0) ? 'Recebimento único' : 'Parcelado';
-                $revenueObj->installments_object = $installments['installments'];
-                return $revenueObj;
-            }, $revenueObject);
-
-        }
-
-        return ['code' => 200, 'revenue' => $revenueObject];
+        return ['code' => 200, 'spending' => $spendingObject];
     }
 
-    public function getInstallments(int $revenue)
+    public function getExpenses(int $spending)
     {
-        $installments = $this->repository->getInstallmentsByRevenue($revenue);
+        $spendingObject = $this->repository->getSpendingById($spending);
 
-        if(!sizeof($installments) > 0) {
-            return ['code' => 200, 'message' => 'Receita não possui parcelamentos'];
+        if (sizeof($spendingObject) === 0) {
+            return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
         }
 
-        $installments = array_map(function($installment) {
-            $installment->installment = $installment->installment.'ª' . ' Parcela';
-            $installment->value_installment = Helpers::formatMoney($installment->value_installment);
-            $installment->pay = Helpers::formatDateSimple($installment->pay);
-            $installment->total_revenue = Helpers::formatMoney($installment->total_revenue);
-            return $installment;
-        }, $installments);
-
-        return ['code' => 200, 'installments' => $installments];
+        $expenses = $this->expenseService->getExpenseByCategory($spendingObject[0]->category_spending_limit);
+        return ['code' => 200, 'expenses' => $expenses];
     }
 
-    private function getInstallmentsAll(int $revenue)
-    {
-        $installments = $this->repository->getInstallmentsByRevenue($revenue);
-
-        if(!sizeof($installments) > 0) {
-            return [];
-        }
-
-        $installments = array_map(function($installment) {
-            $installment->installment = $installment->installment.'ª' . ' Parcela';
-            $installment->value_installment = Helpers::formatMoney($installment->value_installment);
-            $installment->pay = Helpers::formatDateSimple($installment->pay);
-            $installment->total_revenue = Helpers::formatMoney($installment->total_revenue);
-            return $installment;
-        }, $installments);
-
-        return $installments;
-    }
-
-    public function newRevenue(array $resquest)
+    public function newSpending(array $resquest)
     {
         $validator = Validator::make($resquest, [
-            'company' => 'required',
-            'id_category' => 'required|int',
-            'title' => 'required|string',
-            'value' => 'required',
+            'category' => 'required|int',
+            'limit_value' => 'required',
+            'percent_alert' => 'required',
+            'final_date' => 'required'
         ]);
 
         if(!$validator->fails()) {
 
-            $newRevenue = [
-                'company' => $resquest['company'],
-                'id_category' => $resquest['id_category'],
-                'title' => $resquest['title'],
-                'description' => $resquest['description'],
-                'value' => $resquest['value'],
-                'installments' => $resquest['installments'],
-                'quantity_installments' => $resquest['quantity_installments']
+            $newSpending = [
+                'category_spending_limit' => $resquest['category'],
+                'limit_value' => $resquest['limit_value'],
+                'percent_alert' => $resquest['percent_alert'],
+                'final_date_spending' => $resquest['final_date']
             ];
 
-            $response = $this->repository->saveRevenue($newRevenue);
+            $response = $this->repository->saveSpending($newSpending);
 
             if($response) {
-                return ['code' => 200, 'message' => 'Receita salva com sucesso!'];
+                return ['code' => 200, 'message' => 'Limite de gastos salvo com sucesso!'];
             } else {
-                return ['code' => 500, 'message' => 'Erro ao salvar receita!!!'];
+                return ['code' => 500, 'message' => 'Erro ao salvar limite de gastos!!!'];
             }
 
         } else {

@@ -42,4 +42,22 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     {
         return Expense::insert($expense);
     }
+
+    public function getExpenseByCategory(int $category)
+    {
+        return DB::table('expenses as e')
+            ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments')
+            ->addSelect('fc.name as category')
+            ->join('financial_categories as fc', 'fc.id', '=', 'e.id_category_expense')
+            ->where('id_category_expense', $category)
+            ->get()
+            ->toArray();
+    }
+
+    public function getTotalExpensesByCategory(int $category)
+    {
+        return DB::table('expenses')
+            ->where('id_category_expense', $category)
+            ->sum('value');
+    }
 }

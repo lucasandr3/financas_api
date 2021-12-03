@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Interfaces\Services\RevenueServiceInterface;
+use App\Http\Interfaces\Services\SpendingServiceInterface;
 use Illuminate\Http\Request;
 
-class RevenueController extends Controller
+class SpendingController extends Controller
 {
     private $service;
 
     public function __construct
     (
-        RevenueServiceInterface $service
+        SpendingServiceInterface $service
     )
     {
         $this->service = $service;
     }
 
-    public function revenues()
+    public function spendings()
     {
-       return $this->service->allRevenues();
+       return $this->service->allSpendings();
     }
 
-    public function revenueById(Request $request, int $revenue)
+    public function spendingById(Request $request, int $spending)
     {
-        return $this->service->getRevenue($revenue);
+        return $this->service->getSpending($spending);
     }
 
-    public function installments(Request $request, int $revenue)
+    public function expenses(Request $request, int $spending)
     {
-        return $this->service->getInstallments($revenue);
+        return $this->service->getExpenses($spending);
     }
 
-    public function newRevenue(Request $request)
+    public function newSpending(Request $request)
     {
-        return $this->service->newRevenue($request->all());
+        return $this->service->newSpending($request->all());
     }
 }

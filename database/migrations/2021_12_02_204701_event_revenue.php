@@ -16,11 +16,12 @@ class EventRevenue extends Migration
         Schema::create('event_expense', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company');
-            $table->integer('id_category_event_expense');
+            $table->unsignedInteger('id_category_event_expense');
             $table->string('title');
             $table->string('description');
             $table->tinyInteger('installments')->default(0);
-            $table->integer('quantity_installments')->nullable();
+            $table->integer('quantity_installments')->default(1);
+            $table->foreign('id_category_event_expense')->references('id')->on('financial_categories');
         });
     }
 

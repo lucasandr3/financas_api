@@ -134,4 +134,23 @@ class ExpenseService implements ExpenseServiceInterface
             return ['error' => $validator->errors()];
         }
     }
+
+    public function getExpenseByCategory(int $category)
+    {
+        $expenses = $this->repository->getExpenseByCategory($category);
+
+        $expenses = array_map(function($expense) {
+            $expense->value = Helpers::formatMoney($expense->value);
+            $expense->installments = ($expense->installments === 0) ? 'Recebimento único' : 'Parcelado';
+            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
+            return $expense;
+        }, $expenses);
+
+        return $expenses;
+    }
+
+    public function getTotalExpensesByCategory(int $category)
+    {
+        return $this->repository->getTotalExpensesByCategory($category);
+    }
 }

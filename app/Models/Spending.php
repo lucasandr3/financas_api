@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Revenue extends Model
+class Spending extends Model
 {
-    protected $table = "revenues";
+    protected $table = "spending";
     protected $fillable = ['*'];
     public $timestamps = false;
 }

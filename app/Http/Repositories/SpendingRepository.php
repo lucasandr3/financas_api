@@ -2,44 +2,34 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Interfaces\Repositories\RevenueRepositoryInterface;
-use App\Models\Revenue;
+use App\Http\Interfaces\Repositories\SpendingRepositoryInterface;
+use App\Models\Spending;
 use Illuminate\Support\Facades\DB;
 
-class RevenueRepository implements RevenueRepositoryInterface
+class SpendingRepository implements SpendingRepositoryInterface
 {
 
-    public function getAllRevenues()
+    public function getAllSpendings()
     {
-        return DB::table('revenues as r')
-            ->addSelect('r.id','r.title', 'r.description', 'r.value', 'r.installments', 'r.quantity_installments')
+        return DB::table('spending as s')
+            ->addSelect('s.id', 's.category_spending_limit', 's.limit_value', 's.percent_alert', 's.final_date_spending')
             ->addSelect('fc.name as category')
-            ->join('financial_categories as fc', 'fc.id', '=', 'r.id_category')
+            ->join('financial_categories as fc', 'fc.id', '=', 's.category_spending_limit')
             ->get()
         ->toArray();
     }
 
-    public function getRevenueById(int $revenue)
+    public function getSpendingById(int $spending)
     {
-        return DB::table('revenues')
-            ->join('financial_categories', 'financial_categories.id', '=', 'revenues.id_category')
-            ->where('revenues.id', $revenue)
+        return DB::table('spending as s')
+            ->join('financial_categories', 'financial_categories.id', '=', 's.category_spending_limit')
+            ->where('s.id', $spending)
             ->get()
             ->toArray();
     }
 
-    public function getInstallmentsByRevenue(int $revenue)
+    public function saveSpending(array $spending)
     {
-        return DB::table('revenue_installments as ri')
-            ->select('ri.id', 'ri.installment', 'ri.value_installment', 'ri.pay')
-            ->addSelect('r.value as total_revenue', 'r.quantity_installments', 'r.title', 'r.description')
-            ->join('revenues as r', 'r.id', '=', 'ri.revenue')
-            ->where('ri.revenue', $revenue)
-        ->get()->toArray();
-    }
-
-    public function saveRevenue(array $revenue)
-    {
-        return Revenue::insert($revenue);
+        return Spending::insert($spending);
     }
 }
