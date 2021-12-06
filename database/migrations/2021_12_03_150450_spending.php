@@ -15,11 +15,9 @@ class Spending extends Migration
     {
         Schema::create('spending', function(Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('category_spending_limit');
-            $table->float('limit_value');
-            $table->bigInteger('percent_alert');
+            $table->float('limit_value')->nullable();
+            $table->bigInteger('percent_alert')->nullable();
             $table->date('final_date_spending');
-            $table->foreign('category_spending_limit')->references('id')->on('financial_categories');
         });
     }
 

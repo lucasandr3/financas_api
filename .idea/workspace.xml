@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2955455f-7273-4dc5-b95c-c341c5ad4bd8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_12_02_204701_event_revenue.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_12_02_204701_event_revenue.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/RelatedExpenseController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/RelatedExpenseRepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Interfaces/Services/RelatedExpenseServiceInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Repositories/RelatedExpenseRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Services/RelatedExpenseService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bootstrap/constants.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_12_03_185204_related_expense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,6 +198,7 @@
       <workItem from="1638459934508" duration="5080000" />
       <workItem from="1638467495096" duration="4915000" />
       <workItem from="1638537131837" duration="2759000" />
+      <workItem from="1638540130153" duration="14365000" />
     </task>
     <servers />
   </component>

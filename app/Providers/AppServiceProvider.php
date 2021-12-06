@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
         // Binds Spending Limits
         $this->app->bind(\App\Http\Interfaces\Services\SpendingServiceInterface::class, \App\Http\Services\SpendingService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\SpendingRepositoryInterface::class, \App\Http\Repositories\SpendingRepository::class);
+
+        // Binds Related Expenses
+        $this->app->bind(\App\Http\Interfaces\Services\RelatedExpenseServiceInterface::class, \App\Http\Services\RelatedExpenseService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\RelatedExpenseRepositoryInterface::class, \App\Http\Repositories\RelatedExpenseRepository::class);
     }
 }

@@ -55,3 +55,11 @@ $router->group(['prefix' => 'api/spending_limit'], function () use ($router) {
     $router->post('new', 'SpendingController@newSpending');
 });
 
+// rota de
+$router->group(['prefix' => 'api/related_expenses'], function () use ($router) {
+    $router->get('/', 'RelatedExpenseController@relatedExpenses');
+    $router->get('/{related_expense}', 'RelatedExpenseController@relatedExpensesById');
+    $router->get('/expenses/{related_expense}', 'RelatedExpenseController@expenses');
+    $router->post('new', 'RelatedExpenseController@newRelatedExpense');
+});
+

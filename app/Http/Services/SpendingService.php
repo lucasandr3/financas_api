@@ -31,8 +31,8 @@ class SpendingService implements SpendingServiceInterface
             $spending->limit_value = Helpers::formatMoney($spending->limit_value);
             $spending->percent_alert = $spending->percent_alert . "%";
             $spending->final_date_spending = Helpers::formatDateSimple($spending->final_date_spending);
-            $spending->total_expenses = Helpers::formatMoney($this->expenseService->getTotalExpensesByCategory($spending->category_spending_limit));
-            $spending->expenses = $this->expenseService->getExpenseByCategory($spending->category_spending_limit);
+            $spending->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spending->id));
+            $spending->spending_expenses = $this->getExpensesBySpending($spending->id);
             return $spending;
         }, $spendings);
 
@@ -51,8 +51,8 @@ class SpendingService implements SpendingServiceInterface
             $spendingObj->limit_value = Helpers::formatMoney($spendingObj->limit_value);
             $spendingObj->percent_alert = $spendingObj->percent_alert . "%";
             $spendingObj->final_date_spending = Helpers::formatDateSimple($spendingObj->final_date_spending);
-            $spendingObj->total_expenses = Helpers::formatMoney($this->expenseService->getTotalExpensesByCategory($spendingObj->category_spending_limit));
-            $spendingObj->expenses = $this->expenseService->getExpenseByCategory($spendingObj->category_spending_limit);
+            $spendingObj->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spendingObj->id));
+            $spendingObj->spending_expenses = $this->getExpensesBySpending($spendingObj->id);
             return $spendingObj;
         }, $spendingObject);
 
@@ -100,5 +100,43 @@ class SpendingService implements SpendingServiceInterface
         } else {
             return ['error' => $validator->errors()];
         }
+    }
+
+    public function getTotalSpendingExpensesByCategory(int $spending)
+    {
+        return $this->repository->getTotalExpensesBySpending($spending);
+    }
+
+    public function getExpensesBySpending(int $spending)
+    {
+        $expenses = $this->repository->getExpensesBySpending($spending);
+
+        $expenses = array_map(function($expense) {
+            $expense->value = Helpers::formatMoney($expense->value);
+            $expense->installments = ($expense->installments === 0) ? 'Recebimento único' : 'Parcelado';
+            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsBySpendingExpense($expense->id) : null;
+            return $expense;
+        }, $expenses);
+
+        return $expenses;
+    }
+
+    private function getInstallmentsBySpendingExpense(int $category)
+    {
+        $installments = $this->repository->getInstallmentsBySpendingExpense($category);
+
+        if(!sizeof($installments) > 0) {
+            return [];
+        }
+
+        $installments = array_map(function($installment) {
+            $installment->installment = $installment->installment.'ª' . ' Parcela';
+            $installment->value_installment = Helpers::formatMoney($installment->value_installment);
+            $installment->pay = Helpers::formatDateSimple($installment->pay);
+            $installment->total_expense = Helpers::formatMoney($installment->total_expense);
+            return $installment;
+        }, $installments);
+
+        return $installments;
     }
 }
