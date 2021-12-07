@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2955455f-7273-4dc5-b95c-c341c5ad4bd8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Models/ExpenseInstallments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/financas_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/financas_api.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/ExpenseRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/ExpenseRepositoryInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Repositories/ExpenseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Repositories/ExpenseRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Repositories/SpendingRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Repositories/SpendingRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Services/ExpenseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Services/ExpenseService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Services/SpendingService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Services/SpendingService.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +136,8 @@
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/vendor/league/flysystem" />
     </include_path>
   </component>
   <component name="ProjectId" id="21bMSlog2Bd7k8iP4nLlpeMJKsE" />
@@ -198,6 +196,8 @@
       <workItem from="1638809723352" duration="3697000" />
       <workItem from="1638818078090" duration="2668000" />
       <workItem from="1638877576175" duration="1210000" />
+      <workItem from="1638898144627" duration="2948000" />
+      <workItem from="1638901101750" duration="244000" />
     </task>
     <servers />
   </component>
