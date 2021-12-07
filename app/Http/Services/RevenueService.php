@@ -24,6 +24,7 @@ class RevenueService implements RevenueServiceInterface
             $revenue->value = Helpers::formatMoney($revenue->value);
             $revenue->installments = ($revenue->installments === 0) ? 'Recebimento único' : 'Parcelado';
             $revenue->installments_object = ($revenue->installments !== 0) ? $this->getInstallmentsAll($revenue->id) : null;
+            $revenue->photo = ($revenue->photo) ? url('storage/' . $revenue->photo) : '';
             return $revenue;
         }, $revenues);
 
@@ -101,25 +102,30 @@ class RevenueService implements RevenueServiceInterface
         return $installments;
     }
 
-    public function newRevenue(array $resquest)
+    public function newRevenue(object $request)
     {
-        $validator = Validator::make($resquest, [
+        $validator = Validator::make($request->all(), [
             'company' => 'required',
             'id_category' => 'required|int',
             'title' => 'required|string',
             'value' => 'required',
+            'photo' => 'required|file|mimes:jpg,png'
         ]);
 
         if(!$validator->fails()) {
 
+            $file = $request->file('photo')->store('public');
+            $nameFile = explode('public/', $file);
+
             $newRevenue = [
-                'company' => $resquest['company'],
-                'id_category' => $resquest['id_category'],
-                'title' => $resquest['title'],
-                'description' => $resquest['description'],
-                'value' => $resquest['value'],
-                'installments' => $resquest['installments'],
-                'quantity_installments' => $resquest['quantity_installments']
+                'company' => $request['company'],
+                'id_category' => $request['id_category'],
+                'title' => $request['title'],
+                'description' => $request['description'],
+                'value' => $request['value'],
+                'installments' => $request['installments'],
+                'quantity_installments' => $request['quantity_installments'],
+                'photo' => $nameFile[1]
             ];
 
             $response = $this->repository->saveRevenue($newRevenue);

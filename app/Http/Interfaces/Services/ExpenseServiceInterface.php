@@ -14,5 +14,5 @@ interface ExpenseServiceInterface
 
     public function getInstallments(int $expense);
 
-    public function newExpense(array $resquest);
+    public function newExpense(object $resquest);
 }

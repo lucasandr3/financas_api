@@ -24,6 +24,7 @@ class ExpenseService implements ExpenseServiceInterface
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
+            $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : '';
             return $expense;
         }, $expenses);
 
@@ -101,16 +102,20 @@ class ExpenseService implements ExpenseServiceInterface
         return $installments;
     }
 
-    public function newExpense(array $resquest)
+    public function newExpense(object $resquest)
     {
-        $validator = Validator::make($resquest, [
+        $validator = Validator::make($resquest->all(), [
             'company' => 'required',
             'id_category' => 'required|int',
             'title' => 'required|string',
             'value' => 'required',
+            'photo' => 'required|file|mimes:jpg,png'
         ]);
 
         if(!$validator->fails()) {
+
+            $file = $resquest->file('photo')->store('public');
+            $nameFile = explode('public/', $file);
 
             $newExpense = [
                 'company' => $resquest['company'],
@@ -119,7 +124,8 @@ class ExpenseService implements ExpenseServiceInterface
                 'description' => $resquest['description'],
                 'value' => $resquest['value'],
                 'installments' => $resquest['installments'],
-                'quantity_installments' => $resquest['quantity_installments']
+                'quantity_installments' => $resquest['quantity_installments'],
+                'photo' => $nameFile[1]
             ];
 
             if($newExpense['installments'] == 1) {

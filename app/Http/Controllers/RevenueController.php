@@ -34,6 +34,6 @@ class RevenueController extends Controller
 
     public function newRevenue(Request $request)
     {
-        return $this->service->newRevenue($request->all());
+        return $this->service->newRevenue($request);
     }
 }

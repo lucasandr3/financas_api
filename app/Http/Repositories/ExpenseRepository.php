@@ -13,7 +13,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function getAllExpenses()
     {
         return DB::table('expenses as e')
-            ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments')
+            ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo')
             ->addSelect('fc.name as category')
             ->join('financial_categories as fc', 'fc.id', '=', 'e.id_category_expense')
             ->get()

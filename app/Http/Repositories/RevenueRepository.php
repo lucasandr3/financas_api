@@ -12,7 +12,7 @@ class RevenueRepository implements RevenueRepositoryInterface
     public function getAllRevenues()
     {
         return DB::table('revenues as r')
-            ->addSelect('r.id','r.title', 'r.description', 'r.value', 'r.installments', 'r.quantity_installments')
+            ->addSelect('r.id','r.title', 'r.description', 'r.value', 'r.installments', 'r.quantity_installments', 'r.photo')
             ->addSelect('fc.name as category')
             ->join('financial_categories as fc', 'fc.id', '=', 'r.id_category')
             ->get()

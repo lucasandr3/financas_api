@@ -34,6 +34,6 @@ class ExpenseController extends Controller
 
     public function newExpense(Request $request)
     {
-        return $this->service->newExpense($request->all());
+        return $this->service->newExpense($request);
     }
 }
