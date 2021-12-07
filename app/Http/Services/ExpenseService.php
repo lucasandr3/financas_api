@@ -24,7 +24,7 @@ class ExpenseService implements ExpenseServiceInterface
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
-            $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : '';
+            $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
             return $expense;
         }, $expenses);
 

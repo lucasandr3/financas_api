@@ -24,7 +24,7 @@ class RevenueService implements RevenueServiceInterface
             $revenue->value = Helpers::formatMoney($revenue->value);
             $revenue->installments = ($revenue->installments === 0) ? 'Recebimento único' : 'Parcelado';
             $revenue->installments_object = ($revenue->installments !== 0) ? $this->getInstallmentsAll($revenue->id) : null;
-            $revenue->photo = ($revenue->photo) ? url('storage/' . $revenue->photo) : '';
+            $revenue->photo = ($revenue->photo) ? url('storage/' . $revenue->photo) : null;
             return $revenue;
         }, $revenues);
 
