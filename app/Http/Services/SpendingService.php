@@ -67,14 +67,13 @@ class SpendingService implements SpendingServiceInterface
             return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
         }
 
-        $expenses = $this->expenseService->getExpenseByCategory($spendingObject[0]->category_spending_limit);
+        $expenses = $this->getExpensesBySpending($spendingObject[0]->id);
         return ['code' => 200, 'expenses' => $expenses];
     }
 
     public function newSpending(array $resquest)
     {
         $validator = Validator::make($resquest, [
-            'category' => 'required|int',
             'limit_value' => 'required',
             'percent_alert' => 'required',
             'final_date' => 'required'
@@ -83,7 +82,6 @@ class SpendingService implements SpendingServiceInterface
         if(!$validator->fails()) {
 
             $newSpending = [
-                'category_spending_limit' => $resquest['category'],
                 'limit_value' => $resquest['limit_value'],
                 'percent_alert' => $resquest['percent_alert'],
                 'final_date_spending' => $resquest['final_date']
@@ -113,7 +111,7 @@ class SpendingService implements SpendingServiceInterface
 
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
-            $expense->installments = ($expense->installments === 0) ? 'Recebimento único' : 'Parcelado';
+            $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsBySpendingExpense($expense->id) : null;
             return $expense;
         }, $expenses);

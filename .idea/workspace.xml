@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2955455f-7273-4dc5-b95c-c341c5ad4bd8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/RelatedExpenseController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/RelatedExpenseRepositoryInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Interfaces/Services/RelatedExpenseServiceInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Repositories/RelatedExpenseRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Services/RelatedExpenseService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bootstrap/constants.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_12_03_185204_related_expense.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/ExpenseInstallments.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/ExpenseRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/ExpenseRepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Repositories/ExpenseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Repositories/ExpenseRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Repositories/SpendingRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Repositories/SpendingRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Services/ExpenseService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Services/ExpenseService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Services/SpendingService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Services/SpendingService.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +151,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Services" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="advanced.settings" />
@@ -165,11 +159,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Models" />
       <recent name="$PROJECT_DIR$/app/Http/Services" />
       <recent name="$PROJECT_DIR$/app/Http/Repositories" />
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Services" />
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Repositories" />
-      <recent name="$PROJECT_DIR$/app/Http/Controllers" />
     </key>
   </component>
   <component name="RunManager">
@@ -199,6 +193,11 @@
       <workItem from="1638467495096" duration="4915000" />
       <workItem from="1638537131837" duration="2759000" />
       <workItem from="1638540130153" duration="14365000" />
+      <workItem from="1638792524233" duration="5110000" />
+      <workItem from="1638803128452" duration="24000" />
+      <workItem from="1638809723352" duration="3697000" />
+      <workItem from="1638818078090" duration="2668000" />
+      <workItem from="1638877576175" duration="1210000" />
     </task>
     <servers />
   </component>

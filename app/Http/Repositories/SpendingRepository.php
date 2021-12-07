@@ -12,7 +12,7 @@ class SpendingRepository implements SpendingRepositoryInterface
     public function getAllSpendings()
     {
         return DB::table('spending as s')
-            ->addSelect('s.id', 's.limit_value', 's.percent_alert', 's.final_date_spending')
+            ->addSelect('s.id', 's.title', 's.limit_value', 's.percent_alert', 's.final_date_spending')
             ->get()
         ->toArray();
     }

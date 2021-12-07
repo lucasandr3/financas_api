@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\Repositories\ExpenseRepositoryInterface;
 use App\Models\Expense;
+use App\Models\ExpenseInstallments;
 use Illuminate\Support\Facades\DB;
 
 class ExpenseRepository implements ExpenseRepositoryInterface
@@ -41,6 +42,29 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function saveExpense(array $expense)
     {
         return Expense::insert($expense);
+    }
+
+    public function saveExpenseWithInstallment(array $expense)
+    {
+        Expense::insert($expense);
+        $expenseID = DB::getPdo()->lastInsertId();
+        return $this->saveInstallmentsExpense($expenseID, $expense);
+    }
+
+    public function saveInstallmentsExpense(int $expenseId, array $expense)
+    {
+        $installments = [];
+        $parcela = 0;
+        $dataAtual = date('Y-m-d');
+
+        for ($i = 0; $i < $expense['quantity_installments']; $i++) {
+            $parcela++;
+            $installments[]['expense'] = $expenseId;
+            $installments[]['installment'] = $parcela;
+            $installments[]['value_installment'] = ($expense['value'] / $expense['quantity_installments']);
+            $installments[]['pay'] = date('Y-m-d', strtotime('+ 1 month', strtotime($dataAtual)));
+            ExpenseInstallments::insert($installments);
+        }
     }
 
     public function getExpenseByCategory(int $category)

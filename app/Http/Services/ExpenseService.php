@@ -22,7 +22,7 @@ class ExpenseService implements ExpenseServiceInterface
 
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
-            $expense->installments = ($expense->installments === 0) ? 'Recebimento único' : 'Parcelado';
+            $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
             return $expense;
         }, $expenses);
@@ -43,7 +43,7 @@ class ExpenseService implements ExpenseServiceInterface
 
             $expenseObject = array_map(function($expenseObj) {
                 $expenseObj->value = Helpers::formatMoney($expenseObj->value);
-                $expenseObj->installments = ($expenseObj->installments === 0) ? 'Recebimento único' : 'Parcelado';
+                $expenseObj->installments = ($expenseObj->installments === 0) ? 'Pagamento único' : 'Parcelado';
                 return $expenseObj;
             }, $expenseObject);
 
@@ -53,7 +53,7 @@ class ExpenseService implements ExpenseServiceInterface
 
             $expenseObject = array_map(function($expenseObj) use ($installments) {
                 $expenseObj->value = Helpers::formatMoney($expenseObj->value);
-                $expenseObj->installments = ($expenseObj->installments === 0) ? 'Recebimento único' : 'Parcelado';
+                $expenseObj->installments = ($expenseObj->installments === 0) ? 'Pagamento único' : 'Parcelado';
                 $expenseObj->installments_object = $installments['installments'];
                 return $expenseObj;
             }, $expenseObject);
@@ -114,7 +114,7 @@ class ExpenseService implements ExpenseServiceInterface
 
             $newExpense = [
                 'company' => $resquest['company'],
-                'id_category' => $resquest['id_category'],
+                'id_category_expense' => $resquest['id_category'],
                 'title' => $resquest['title'],
                 'description' => $resquest['description'],
                 'value' => $resquest['value'],
@@ -122,7 +122,11 @@ class ExpenseService implements ExpenseServiceInterface
                 'quantity_installments' => $resquest['quantity_installments']
             ];
 
-            $response = $this->repository->saveExpense($newExpense);
+            if($newExpense['installments'] == 1) {
+                $response = $this->repository->saveExpenseWithInstallment($newExpense);
+            } else {
+                $response = $this->repository->saveExpense($newExpense);
+            }
 
             if($response) {
                 return ['code' => 200, 'message' => 'Despesa salva com sucesso!'];
@@ -141,7 +145,7 @@ class ExpenseService implements ExpenseServiceInterface
 
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
-            $expense->installments = ($expense->installments === 0) ? 'Recebimento único' : 'Parcelado';
+            $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
             return $expense;
         }, $expenses);
