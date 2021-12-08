@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Spending extends Migration
+class SpendingTarget extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class Spending extends Migration
      */
     public function up()
     {
-        Schema::create('spending', function(Blueprint $table) {
+        Schema::create('spending_target', function(Blueprint $table) {
             $table->increments('id');
             $table->string('company');
-            $table->string('title');
-            $table->float('limit_value')->nullable();
-            $table->bigInteger('percent_alert')->nullable();
-            $table->date('final_date_spending');
+            $table->unsignedInteger('category_target');
+            $table->float('value_target');
+            $table->integer('limit_target_alert');
+            $table->foreign('category_target')->references('id')->on('financial_categories');
         });
     }
 
@@ -30,6 +30,6 @@ class Spending extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spending');
+        Schema::dropIfExists('spending_target');
     }
 }

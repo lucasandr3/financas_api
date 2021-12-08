@@ -16,12 +16,14 @@ class Expenses extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company');
-            $table->integer('id_category_expense');
+            $table->unsignedInteger('id_category_expense');
             $table->string('title');
             $table->string('description')->nullable();
             $table->float('value');
             $table->tinyInteger('installments')->default(0);
-            $table->integer('quantity_installments')->nullable();
+            $table->integer('quantity_installments')->default(1);
+            $table->string('photo')->nullable();
+            $table->foreign('id_category_expense')->references('id')->on('financial_categories');
         });
     }
 

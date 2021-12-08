@@ -15,6 +15,7 @@ class SpendingInstallments extends Migration
     {
         Schema::create('spending_installments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('company');
             $table->unsignedInteger('spending_limit');
             $table->unsignedInteger('spending_expense');
             $table->integer('installment');

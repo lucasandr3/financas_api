@@ -56,6 +56,13 @@ $router->group(['prefix' => 'api/spendings'], function () use ($router) {
     $router->post('new/expense', 'SpendingController@newExpenseSpending');
 });
 
+// rota de meta de gastos
+$router->group(['prefix' => 'api/spending_targets'], function () use ($router) {
+    $router->get('/', 'SpendingTargetController@spendingsTargets');
+    $router->get('/{spending}', 'SpendingTargetController@spendingTargetById');
+    $router->post('new', 'SpendingTargetController@newSpendingTarget');
+});
+
 // rota de
 $router->group(['prefix' => 'api/related_expenses'], function () use ($router) {
     $router->get('/', 'RelatedExpenseController@relatedExpenses');

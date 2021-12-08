@@ -42,6 +42,8 @@ return array(
     'App\\Models\\ExpenseInstallments' => $baseDir . '/app/Models/ExpenseInstallments.php',
     'App\\Models\\Revenue' => $baseDir . '/app/Models/Revenue.php',
     'App\\Models\\Spending' => $baseDir . '/app/Models/Spending.php',
+    'App\\Models\\SpendingExpenses' => $baseDir . '/app/Models/SpendingExpenses.php',
+    'App\\Models\\SpendingInstallments' => $baseDir . '/app/Models/SpendingInstallments.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

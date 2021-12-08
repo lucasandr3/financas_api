@@ -15,6 +15,7 @@ class RevenueInstallments extends Migration
     {
         Schema::create('revenue_installments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('company');
             $table->integer('revenue');
             $table->integer('installment');
             $table->float('value_installment');

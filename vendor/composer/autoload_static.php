@@ -539,6 +539,8 @@ class ComposerStaticInit5de64115c7e56374f0dad2986b22eb7c
         'App\\Models\\ExpenseInstallments' => __DIR__ . '/../..' . '/app/Models/ExpenseInstallments.php',
         'App\\Models\\Revenue' => __DIR__ . '/../..' . '/app/Models/Revenue.php',
         'App\\Models\\Spending' => __DIR__ . '/../..' . '/app/Models/Spending.php',
+        'App\\Models\\SpendingExpenses' => __DIR__ . '/../..' . '/app/Models/SpendingExpenses.php',
+        'App\\Models\\SpendingInstallments' => __DIR__ . '/../..' . '/app/Models/SpendingInstallments.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

@@ -16,12 +16,14 @@ class Revenues extends Migration
         Schema::create('revenues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('company');
-            $table->integer('id_category');
+            $table->unsignedInteger('id_category');
             $table->string('title');
             $table->string('description')->nullable();
             $table->float('value');
             $table->tinyInteger('installments')->default(0);
-            $table->integer('quantity_installments')->nullable();
+            $table->integer('quantity_installments')->default(1);
+            $table->string('photo')->nullable();
+            $table->foreign('id_category')->references('id')->on('financial_categories');
         });
     }
 

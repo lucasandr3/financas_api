@@ -15,6 +15,7 @@ class SpendingExpenses extends Migration
     {
         Schema::create('spending_expenses', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('company');
             $table->unsignedInteger('spending');
             $table->unsignedInteger('category');
             $table->string('title');
@@ -22,6 +23,7 @@ class SpendingExpenses extends Migration
             $table->float('value');
             $table->tinyInteger('installments')->default(0);
             $table->integer('quantity_installments')->default(1);
+            $table->string('photo')->nullable();
             $table->date('date_spending_expense');
             $table->foreign('spending')->references('id')->on('spending');
             $table->foreign('category')->references('id')->on('financial_categories');

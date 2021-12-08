@@ -15,6 +15,7 @@ class ExpenseInstallments extends Migration
     {
         Schema::create('expense_installments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('company');
             $table->integer('expense');
             $table->integer('installment');
             $table->float('value_installment');

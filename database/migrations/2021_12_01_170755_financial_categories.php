@@ -15,6 +15,7 @@ class FinancialCategories extends Migration
     {
         Schema::create('financial_categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('company');
             $table->string('name');
         });
     }
