@@ -4,6 +4,8 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\Repositories\SpendingRepositoryInterface;
 use App\Models\Spending;
+use App\Models\SpendingExpenses;
+use App\Models\SpendingInstallments;
 use Illuminate\Support\Facades\DB;
 
 class SpendingRepository implements SpendingRepositoryInterface
@@ -40,7 +42,7 @@ class SpendingRepository implements SpendingRepositoryInterface
     public function getExpensesBySpending(int $spending)
     {
         return DB::table('spending_expenses as se')
-            ->addSelect('se.id','se.title', 'se.description', 'se.value', 'se.installments', 'se.quantity_installments', 'se.date_spending_expense')
+            ->addSelect('se.id','se.title', 'se.description', 'se.value', 'se.installments', 'se.quantity_installments', 'se.photo', 'se.date_spending_expense')
             ->addSelect('fc.name as category', 'fc.id as id_category')
             ->join('financial_categories as fc', 'fc.id', '=', 'se.category')
             ->where('spending', $spending)
@@ -56,5 +58,34 @@ class SpendingRepository implements SpendingRepositoryInterface
             ->join('spending_expenses as se', 'se.id', '=', 'si.spending_expense')
             ->where('si.spending_expense', $category)
             ->get()->toArray();
+    }
+
+    public function saveExpenseWithInstallment(array $expense)
+    {
+        SpendingExpenses::insert($expense);
+        $expenseID = DB::getPdo()->lastInsertId();
+        return $this->saveInstallmentsExpense($expenseID, $expense);
+    }
+
+    public function saveInstallmentsExpense(int $expenseId, array $expense)
+    {
+        $installments = [];
+        $parcela = 0;
+        $dataAtual = date('Y-m-d');
+
+        for ($i = 0; $i < $expense['quantity_installments']; $i++) {
+            $parcela++;
+            $installments[]['spending_limit'] = 2;
+            $installments[]['spending_expense'] = $expenseId;
+            $installments[]['installment'] = $parcela;
+            $installments[]['value_installment'] = ($expense['value'] / $expense['quantity_installments']);
+            $installments[]['pay'] = date('Y-m-d', strtotime('+ 1 month', strtotime($dataAtual)));
+            SpendingInstallments::insert($installments);
+        }
+    }
+
+    public function saveExpense(array $expense)
+    {
+        return SpendingExpenses::insert($expense);
     }
 }

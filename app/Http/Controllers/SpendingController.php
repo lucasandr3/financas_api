@@ -36,4 +36,9 @@ class SpendingController extends Controller
     {
         return $this->service->newSpending($request->all());
     }
+
+    public function newExpenseSpending(Request $request)
+    {
+        return $this->service->newExpenseSpending($request);
+    }
 }

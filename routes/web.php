@@ -53,6 +53,7 @@ $router->group(['prefix' => 'api/spending_limit'], function () use ($router) {
     $router->get('/{spending}', 'SpendingController@spendingById');
     $router->get('/expenses/{spending}', 'SpendingController@expenses');
     $router->post('new', 'SpendingController@newSpending');
+    $router->post('new/expense', 'SpendingController@newExpenseSpending');
 });
 
 // rota de

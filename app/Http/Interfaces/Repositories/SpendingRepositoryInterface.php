@@ -15,4 +15,8 @@ interface SpendingRepositoryInterface
     public function getExpensesBySpending(int $spending);
 
     public function getInstallmentsBySpendingExpense(int $category);
+
+    public function saveExpenseWithInstallment(array $expense);
+
+    public function saveExpense(array $expense);
 }

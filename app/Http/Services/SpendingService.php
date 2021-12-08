@@ -113,6 +113,7 @@ class SpendingService implements SpendingServiceInterface
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsBySpendingExpense($expense->id) : null;
+            $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
             return $expense;
         }, $expenses);
 
@@ -136,5 +137,49 @@ class SpendingService implements SpendingServiceInterface
         }, $installments);
 
         return $installments;
+    }
+
+    public function newExpenseSpending(object $resquest)
+    {
+        $validator = Validator::make($resquest->all(), [
+            'spending' => 'required',
+            'id_category' => 'required|int',
+            'title' => 'required|string',
+            'value' => 'required',
+            'photo' => 'required|file|mimes:jpg,png'
+        ]);
+
+        if(!$validator->fails()) {
+
+            $file = $resquest->file('photo')->store('public');
+            $nameFile = explode('public/', $file);
+
+            $newExpense = [
+                'spending' => $resquest['spending'],
+                'category' => $resquest['id_category'],
+                'title' => $resquest['title'],
+                'description' => $resquest['description'],
+                'value' => $resquest['value'],
+                'installments' => $resquest['installments'],
+                'quantity_installments' => $resquest['quantity_installments'],
+                'photo' => $nameFile[1],
+                'date_spending_expense' => $resquest['date_spending_expense']
+            ];
+
+            if($newExpense['installments'] == 1) {
+                $response = $this->repository->saveExpenseWithInstallment($newExpense);
+            } else {
+                $response = $this->repository->saveExpense($newExpense);
+            }
+
+            if($response) {
+                return ['code' => 200, 'message' => 'Despesa salva com sucesso!'];
+            } else {
+                return ['code' => 500, 'message' => 'Erro ao salvar despesa!!!'];
+            }
+
+        } else {
+            return ['error' => $validator->errors()];
+        }
     }
 }

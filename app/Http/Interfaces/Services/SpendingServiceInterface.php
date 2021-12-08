@@ -12,5 +12,7 @@ interface SpendingServiceInterface
 
     public function newSpending(array $resquest);
 
+    public function newExpenseSpending(object $resquest);
+
     public function getTotalSpendingExpensesByCategory(int $spending);
 }
