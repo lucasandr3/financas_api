@@ -48,7 +48,7 @@ $router->group(['prefix' => 'api/event/revenues'], function () use ($router) {
 });
 
 // rota de limite de gastos
-$router->group(['prefix' => 'api/spending_limit'], function () use ($router) {
+$router->group(['prefix' => 'api/spendings'], function () use ($router) {
     $router->get('/', 'SpendingController@spendings');
     $router->get('/{spending}', 'SpendingController@spendingById');
     $router->get('/expenses/{spending}', 'SpendingController@expenses');
