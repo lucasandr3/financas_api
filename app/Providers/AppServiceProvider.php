@@ -32,5 +32,13 @@ class AppServiceProvider extends ServiceProvider
         // Binds Spending Targets
         $this->app->bind(\App\Http\Interfaces\Services\SpendingTargetServiceInterface::class, \App\Http\Services\SpendingTargetService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\SpendingTargetRepositoryInterface::class, \App\Http\Repositories\SpendingTargetRepository::class);
+
+        // Binds Cards
+        $this->app->bind(\App\Http\Interfaces\Services\CardsServiceInterface::class, \App\Http\Services\CardsService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\CardsRepositoryInterface::class, \App\Http\Repositories\CardsRepository::class);
+
+        // Binds Lendings
+        $this->app->bind(\App\Http\Interfaces\Services\LendingsServiceInterface::class, \App\Http\Services\LendingsService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\LendingsRepositoryInterface::class, \App\Http\Repositories\LendingsRepository::class);
     }
 }

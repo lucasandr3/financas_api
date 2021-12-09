@@ -63,11 +63,20 @@ $router->group(['prefix' => 'api/spending_targets'], function () use ($router) {
     $router->post('new', 'SpendingTargetController@newSpendingTarget');
 });
 
-// rota de
-$router->group(['prefix' => 'api/related_expenses'], function () use ($router) {
-    $router->get('/', 'RelatedExpenseController@relatedExpenses');
-    $router->get('/{related_expense}', 'RelatedExpenseController@relatedExpensesById');
-    $router->get('/expenses/{related_expense}', 'RelatedExpenseController@expenses');
-    $router->post('new', 'RelatedExpenseController@newRelatedExpense');
+// rota de Cartões
+$router->group(['prefix' => 'api/cards'], function () use ($router) {
+    $router->get('/', 'CardsController@myCards');
+    $router->get('/{card}', 'CardsController@cardById');
+    $router->get('/expenses/{card}', 'CardsController@cardExpenses');
+    $router->post('new', 'CardsController@newCard');
+    $router->post('new/expense', 'CardsController@newExpenseCard');
+});
+
+// rota de Empréstimos
+$router->group(['prefix' => 'api/lendings'], function () use ($router) {
+    $router->get('/', 'LendingsController@myLendings');
+    $router->get('/{lending}', 'LendingsController@lendingById');
+    $router->get('/installments/{lending}', 'LendingsController@lendingInstallments');
+    $router->post('new', 'LendingsController@newLending');
 });
 

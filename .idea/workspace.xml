@@ -145,7 +145,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Services" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="advanced.settings" />
@@ -153,11 +153,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/Models" />
       <recent name="$PROJECT_DIR$/app/Http/Services" />
       <recent name="$PROJECT_DIR$/app/Http/Repositories" />
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Services" />
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Repositories" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers" />
     </key>
   </component>
   <component name="RunManager">
@@ -196,6 +196,7 @@
       <workItem from="1638901101750" duration="244000" />
       <workItem from="1638901982222" duration="71000" />
       <workItem from="1638982642365" duration="1828000" />
+      <workItem from="1638985283395" duration="4246000" />
     </task>
     <servers />
   </component>
