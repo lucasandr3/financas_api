@@ -35,8 +35,7 @@ class AuthRepository implements AuthRepositoryInterface
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        $token = $this->respondWithToken($token);
-        return $token->getData()->token;
+        return $this->respondWithToken($token);
     }
 
     protected function respondWithToken($token)
