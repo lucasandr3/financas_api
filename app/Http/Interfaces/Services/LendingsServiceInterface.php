@@ -4,13 +4,13 @@ namespace App\Http\Interfaces\Services;
 
 interface LendingsServiceInterface
 {
-    public function allSpendings();
+    public function allLendings();
 
-    public function getSpending(int $spending);
+    public function getLending(int $lending);
 
     public function getExpenses(int $spending);
 
-    public function newSpending(array $resquest);
+    public function newLending(object $request);
 
     public function newExpenseSpending(object $resquest);
 

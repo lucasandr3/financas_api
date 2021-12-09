@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2955455f-7273-4dc5-b95c-c341c5ad4bd8" name="Changes" comment="" />
+    <list default="true" id="2955455f-7273-4dc5-b95c-c341c5ad4bd8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/financas_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/financas_api.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CardsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CardsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/CardsRepositoryInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Interfaces/Repositories/CardsRepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Interfaces/Services/CardsServiceInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Interfaces/Services/CardsServiceInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Repositories/CardsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Repositories/CardsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Services/CardsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Services/CardsService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_12_02_162434_expenses.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,6 +215,7 @@
       <workItem from="1638982642365" duration="1828000" />
       <workItem from="1638985283395" duration="4246000" />
       <workItem from="1639057133709" duration="13445000" />
+      <workItem from="1639075001817" duration="3518000" />
     </task>
     <servers />
   </component>

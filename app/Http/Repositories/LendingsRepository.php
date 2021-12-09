@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\DB;
 class LendingsRepository implements LendingsRepositoryInterface
 {
 
-    public function getAllSpendings()
+    public function getAllLendings()
     {
-        return DB::table('spending as s')
-            ->addSelect('s.id', 's.title', 's.limit_value', 's.percent_alert', 's.final_date_spending')
+        return DB::table('lendings as l')
+            ->addSelect('l.id', 'l.title', 'l.reason', 'l.value_lending', 'l.interest', 'l.installments', 'l.quantity_installments', 'l.pay_date')
+            ->addSelect('fc.name')
+            ->join('financial_categories as fc', 'fc.id', '=', 'l.category')
             ->get()
         ->toArray();
     }
@@ -26,9 +28,27 @@ class LendingsRepository implements LendingsRepositoryInterface
             ->toArray();
     }
 
-    public function saveSpending(array $spending)
+    public function saveLeading(object $request)
     {
-        return Spending::insert($spending);
+        try {
+
+            $lending = new Lending;
+            $lending->category = $request->input('category');
+            $lending->company = $request->input('company');
+            $lending->title = $request->input('title');
+            $lending->reason = $request->input('reason');
+            $lending->value_lending = $request->input('value_lending');
+            $lending->interest = $request->input('interest');
+            $lending->installments = $request->input('installments');
+            $lending->quantity_installments = $request->input('quantity_installments');
+            $lending->pay_date = $request->input('pay_date');
+
+            $lending->save();
+            return response()->json(['user' => $lending, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao cadastrar usuário!'], 409);
+        }
     }
 
     public function getTotalExpensesBySpending(int $spending)

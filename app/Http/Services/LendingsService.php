@@ -23,23 +23,22 @@ class LendingsService implements LendingsServiceInterface
         $this->expenseService = $expenseService;
     }
 
-    public function allSpendings()
+    public function allLendings()
     {
-        $spendings = $this->repository->getAllSpendings();
+        $lendings = $this->repository->getAllLendings();
 
-        $spendings = array_map(function($spending) {
-            $spending->limit_value = Helpers::formatMoney($spending->limit_value);
-            $spending->percent_alert = $spending->percent_alert . "%";
-            $spending->final_date_spending = Helpers::formatDateSimple($spending->final_date_spending);
-            $spending->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spending->id));
-            $spending->spending_expenses = $this->getExpensesBySpending($spending->id);
-            return $spending;
-        }, $spendings);
+        $lendings = array_map(function($lending) {
+            $lending->value_lending = Helpers::formatMoney($lending->value_lending);
+            $lending->interest = Helpers::formatInterest($lending->interest);
+            $lending->pay_date = Helpers::formatDateSimple($lending->pay_date);
+            $lending->installments = ($lending->installments === 0) ? 'Pagamento único' : 'Parcelado';
+            return $lending;
+        }, $lendings);
 
-        return $spendings;
+        return response()->json($lendings, 201);
     }
 
-    public function getSpending(int $spending)
+    public function getLending(int $spending)
     {
         $spendingObject = $this->repository->getSpendingById($spending);
 
@@ -71,28 +70,24 @@ class LendingsService implements LendingsServiceInterface
         return ['code' => 200, 'expenses' => $expenses];
     }
 
-    public function newSpending(array $resquest)
+    public function newLending(object $request)
     {
-        $validator = Validator::make($resquest, [
-            'limit_value' => 'required',
-            'percent_alert' => 'required',
-            'final_date' => 'required'
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'company' => 'required|string',
+            'title' => 'required|string',
+            'reason' => 'string',
+            'value_lending' => 'required'
         ]);
 
         if(!$validator->fails()) {
 
-            $newSpending = [
-                'limit_value' => $resquest['limit_value'],
-                'percent_alert' => $resquest['percent_alert'],
-                'final_date_spending' => $resquest['final_date']
-            ];
-
-            $response = $this->repository->saveSpending($newSpending);
+            $response = $this->repository->saveLeading($request);
 
             if($response) {
-                return ['code' => 200, 'message' => 'Limite de gastos salvo com sucesso!'];
+                return response()->json(['message' => 'Empréstimo salvo com sucesso!'], 201);
             } else {
-                return ['code' => 500, 'message' => 'Erro ao salvar limite de gastos!!!'];
+                return response()->json(['message' => 'Erro ao cadastrar Empréstimo!'], 500);
             }
 
         } else {

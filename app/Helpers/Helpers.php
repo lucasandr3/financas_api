@@ -13,4 +13,9 @@ class Helpers
     {
         return $date = date('d/m/Y', strtotime($date));
     }
+
+    public static function formatInterest(float $value, int $precision = 1): string
+    {
+        return number_format($value, $precision, '.','.') . "%";
+    }
 }

@@ -4,11 +4,11 @@ namespace App\Http\Interfaces\Repositories;
 
 interface LendingsRepositoryInterface
 {
-    public function getAllSpendings();
+    public function getAllLendings();
 
     public function getSpendingById(int $spending);
 
-    public function saveSpending(array $spending);
+    public function saveLeading(object $request);
 
     public function getTotalExpensesBySpending(int $spending);
 
