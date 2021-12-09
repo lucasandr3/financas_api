@@ -89,14 +89,13 @@ $router->group([
 
 // rota de Cartões
 $router->group([
-//    'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'api/cards'
 ], function () use ($router) {
     $router->get('/', 'CardsController@myCards');
     $router->get('/{card}', 'CardsController@cardById');
-    $router->get('/expenses/{card}', 'CardsController@cardExpenses');
+    $router->get('/{card}/expenses', 'CardsController@cardExpenses');
     $router->post('new', 'CardsController@newCard');
-    $router->post('new/expense', 'CardsController@newExpenseCard');
 });
 
 // rota de Empréstimos

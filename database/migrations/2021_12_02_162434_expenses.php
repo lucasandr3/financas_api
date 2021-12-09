@@ -17,6 +17,7 @@ class Expenses extends Migration
             $table->increments('id');
             $table->string('company');
             $table->unsignedInteger('id_category_expense');
+            $table->unsignedInteger('card')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
             $table->float('value');
@@ -24,6 +25,7 @@ class Expenses extends Migration
             $table->integer('quantity_installments')->default(1);
             $table->string('photo')->nullable();
             $table->foreign('id_category_expense')->references('id')->on('financial_categories');
+            $table->foreign('card')->references('id')->on('cards');
         });
     }
 

@@ -37,36 +37,38 @@ class CardsService implements CardsServiceInterface
         return response()->json($cards, 201);
     }
 
-    public function getSpending(int $spending)
+    public function getCard(int $card)
     {
-        $spendingObject = $this->repository->getSpendingById($spending);
+        $cardObject = $this->repository->getCardById($card);
 
-        if(!sizeof($spendingObject) > 0) {
-            return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
+        if(!sizeof($cardObject) > 0) {
+            return ['code' => 204, 'message' => 'Cartão não existe.'];
         }
 
-        $spendingObject = array_map(function($spendingObj) {
-            $spendingObj->limit_value = Helpers::formatMoney($spendingObj->limit_value);
-            $spendingObj->percent_alert = $spendingObj->percent_alert . "%";
-            $spendingObj->final_date_spending = Helpers::formatDateSimple($spendingObj->final_date_spending);
-            $spendingObj->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spendingObj->id));
-            $spendingObj->spending_expenses = $this->getExpensesBySpending($spendingObj->id);
-            return $spendingObj;
-        }, $spendingObject);
+        $cardObject = array_map(function($cardObj) {
+            $cardObj->limit_card = Helpers::formatMoney($cardObj->limit_card);
+            $cardObj->percent_alert = $cardObj->percent_alert . "%";
+            $cardObj->annuity = ($cardObj->annuity) ? Helpers::formatMoney($cardObj->annuity) : 'Não Informado';
+            return $cardObj;
+        }, $cardObject);
 
-        return ['code' => 200, 'spending' => $spendingObject];
+        return response()->json($cardObject, 201);
     }
 
-    public function getExpenses(int $spending)
+    public function getExpenses(int $card)
     {
-        $spendingObject = $this->repository->getSpendingById($spending);
+        $cardObject = $this->repository->getCardById($card);
 
-        if (sizeof($spendingObject) === 0) {
-            return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
+        if (sizeof($cardObject) === 0) {
+            return ['code' => 204, 'message' => 'Cartão não existe.'];
         }
 
-        $expenses = $this->getExpensesBySpending($spendingObject[0]->id);
-        return ['code' => 200, 'expenses' => $expenses];
+        $expenses = $this->getExpensesByCard($cardObject[0]->id);
+//        echo "<pre>";
+//        var_dump($expenses);
+//        echo "</pre>";
+//        die;
+        return response()->json($expenses, 201);
     }
 
     public function newCard(object $resquest)
@@ -98,24 +100,36 @@ class CardsService implements CardsServiceInterface
         return $this->repository->getTotalExpensesBySpending($spending);
     }
 
-    public function getExpensesBySpending(int $spending)
+    public function getExpensesByCard(int $card)
     {
-        $expenses = $this->repository->getExpensesBySpending($spending);
+        $expenses = $this->repository->getExpensesByCard($card);
+        $totalExpenses = $this->repository->getTotalExpensesByCard($card);
+        $limitCard = $this->repository->getLimitByCard($card);
+
+        $totais = [
+            'totais' => [
+                'total_expenses' => Helpers::formatMoney($totalExpenses),
+                'limit_card' => Helpers::formatMoney($limitCard->limit_card),
+                'current_limit' => Helpers::formatMoney($limitCard->limit_card - $totalExpenses)
+            ]
+        ];
 
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
-            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsBySpendingExpense($expense->id) : null;
+            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsByCardExpense($expense->id) : null;
             $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
             return $expense;
         }, $expenses);
 
+        array_push($expenses, $totais);
+
         return $expenses;
     }
 
-    private function getInstallmentsBySpendingExpense(int $category)
+    private function getInstallmentsByCardExpense(int $expense)
     {
-        $installments = $this->repository->getInstallmentsBySpendingExpense($category);
+        $installments = $this->repository->getInstallmentsByCardExpense($expense);
 
         if(!sizeof($installments) > 0) {
             return [];

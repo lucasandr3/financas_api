@@ -134,6 +134,9 @@
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/vendor/tymon/jwt-auth" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/namshi/jose" />
     </include_path>
   </component>
   <component name="ProjectId" id="21bMSlog2Bd7k8iP4nLlpeMJKsE" />
@@ -158,6 +161,9 @@
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Services" />
       <recent name="$PROJECT_DIR$/app/Http/Interfaces/Repositories" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/config" />
     </key>
   </component>
   <component name="RunManager">
@@ -197,6 +203,7 @@
       <workItem from="1638901982222" duration="71000" />
       <workItem from="1638982642365" duration="1828000" />
       <workItem from="1638985283395" duration="4246000" />
+      <workItem from="1639057133709" duration="13445000" />
     </task>
     <servers />
   </component>

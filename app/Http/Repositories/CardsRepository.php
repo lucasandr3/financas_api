@@ -16,10 +16,10 @@ class CardsRepository implements CardsRepositoryInterface
         return DB::table('cards')->get()->toArray();
     }
 
-    public function getSpendingById(int $spending)
+    public function getCardById(int $card)
     {
-        return DB::table('spending as s')
-            ->where('s.id', $spending)
+        return DB::table('cards as c')
+            ->where('c.id', $card)
             ->get()
             ->toArray();
     }
@@ -44,31 +44,38 @@ class CardsRepository implements CardsRepositoryInterface
         }
     }
 
-    public function getTotalExpensesBySpending(int $spending)
+    public function getTotalExpensesByCard(int $card)
     {
-        return DB::table('spending_expenses')
-            ->where('spending', $spending)
+        return DB::table('expenses')
+            ->where('card', $card)
             ->sum('value');
     }
 
-    public function getExpensesBySpending(int $spending)
+    public function getLimitByCard(int $card)
     {
-        return DB::table('spending_expenses as se')
-            ->addSelect('se.id','se.title', 'se.description', 'se.value', 'se.installments', 'se.quantity_installments', 'se.photo', 'se.date_spending_expense')
-            ->addSelect('fc.name as category', 'fc.id as id_category')
-            ->join('financial_categories as fc', 'fc.id', '=', 'se.category')
-            ->where('spending', $spending)
+        return DB::table('cards')
+            ->select('limit_card')
+            ->where('id', $card)->get()->toArray()[0];
+    }
+
+    public function getExpensesByCard(int $card)
+    {
+        return DB::table('expenses as e')
+            ->addSelect('e.id', 'e.company', 'e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo')
+            ->addSelect('c.institution')
+            ->join('cards as c', 'c.id', '=', 'e.card')
+            ->where('e.card', $card)
             ->get()
             ->toArray();
     }
 
-    public function getInstallmentsBySpendingExpense(int $category)
+    public function getInstallmentsByCardExpense(int $expense)
     {
-        return DB::table('spending_installments as si')
-            ->select('si.id', 'si.installment', 'si.value_installment', 'si.pay')
-            ->addSelect('se.value as total_expense', 'se.quantity_installments', 'se.title', 'se.description')
-            ->join('spending_expenses as se', 'se.id', '=', 'si.spending_expense')
-            ->where('si.spending_expense', $category)
+        return DB::table('expense_installments as ei')
+            ->select('ei.id', 'ei.installment', 'ei.value_installment', 'ei.pay')
+            ->addSelect('e.value as total_expense', 'e.quantity_installments', 'e.title', 'e.description')
+            ->join('expenses as e', 'e.id', '=', 'ei.expense')
+            ->where('ei.expense', $expense)
             ->get()->toArray();
     }
 

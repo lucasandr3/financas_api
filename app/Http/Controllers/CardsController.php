@@ -22,23 +22,18 @@ class CardsController extends Controller
        return $this->service->allCards();
     }
 
-    public function cardById(Request $request, int $spending)
+    public function cardById(Request $request, int $card)
     {
-        return $this->service->getSpending($spending);
+        return $this->service->getCard($card);
     }
 
-    public function cardExpenses(Request $request, int $spending)
+    public function cardExpenses(Request $request, int $card)
     {
-        return $this->service->getExpenses($spending);
+        return $this->service->getExpenses($card);
     }
 
     public function newCard(Request $request)
     {
         return $this->service->newCard($request);
-    }
-
-    public function newExpenseCard(Request $request)
-    {
-        return $this->service->newExpenseSpending($request);
     }
 }

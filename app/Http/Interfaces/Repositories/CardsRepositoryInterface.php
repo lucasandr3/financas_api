@@ -6,15 +6,17 @@ interface CardsRepositoryInterface
 {
     public function getAllCards();
 
-    public function getSpendingById(int $spending);
+    public function getCardById(int $card);
 
     public function saveCard(object $request);
 
-    public function getTotalExpensesBySpending(int $spending);
+    public function getTotalExpensesByCard(int $card);
 
-    public function getExpensesBySpending(int $spending);
+    public function getLimitByCard(int $card);
 
-    public function getInstallmentsBySpendingExpense(int $category);
+    public function getExpensesByCard(int $card);
+
+    public function getInstallmentsByCardExpense(int $expense);
 
     public function saveExpenseWithInstallment(array $expense);
 

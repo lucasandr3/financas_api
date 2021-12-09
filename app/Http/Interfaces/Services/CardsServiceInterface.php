@@ -6,9 +6,9 @@ interface CardsServiceInterface
 {
     public function allCards();
 
-    public function getSpending(int $spending);
+    public function getCard(int $card);
 
-    public function getExpenses(int $spending);
+    public function getExpenses(int $card);
 
     public function newCard(object $resquest);
 
