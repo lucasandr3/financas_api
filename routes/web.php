@@ -89,7 +89,7 @@ $router->group([
 
 // rota de Cartões
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/cards'
 ], function () use ($router) {
     $router->get('/', 'CardsController@myCards');

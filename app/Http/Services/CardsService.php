@@ -23,20 +23,18 @@ class CardsService implements CardsServiceInterface
         $this->expenseService = $expenseService;
     }
 
-    public function allSpendings()
+    public function allCards()
     {
-        $spendings = $this->repository->getAllSpendings();
+        $cards = $this->repository->getAllCards();
 
-        $spendings = array_map(function($spending) {
-            $spending->limit_value = Helpers::formatMoney($spending->limit_value);
-            $spending->percent_alert = $spending->percent_alert . "%";
-            $spending->final_date_spending = Helpers::formatDateSimple($spending->final_date_spending);
-            $spending->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spending->id));
-            $spending->spending_expenses = $this->getExpensesBySpending($spending->id);
-            return $spending;
-        }, $spendings);
+        $cards = array_map(function($card) {
+            $card->limit_card = Helpers::formatMoney($card->limit_card);
+            $card->percent_alert = $card->percent_alert . "%";
+            $card->annuity = ($card->annuity) ? Helpers::formatMoney($card->annuity) : 'Não Informado';
+            return $card;
+        }, $cards);
 
-        return response()->json($spendings, '200');
+        return response()->json($cards, 201);
     }
 
     public function getSpending(int $spending)
@@ -71,32 +69,27 @@ class CardsService implements CardsServiceInterface
         return ['code' => 200, 'expenses' => $expenses];
     }
 
-    public function newSpending(array $resquest)
+    public function newCard(object $resquest)
     {
-        $validator = Validator::make($resquest, [
-            'limit_value' => 'required',
-            'percent_alert' => 'required',
-            'final_date' => 'required'
+        $validator = Validator::make($resquest->all(), [
+            'company' => 'required',
+            'institution' => 'required',
+            'limit_card' => 'required',
+            'percent_alert' => 'required'
         ]);
 
         if(!$validator->fails()) {
 
-            $newSpending = [
-                'limit_value' => $resquest['limit_value'],
-                'percent_alert' => $resquest['percent_alert'],
-                'final_date_spending' => $resquest['final_date']
-            ];
-
-            $response = $this->repository->saveSpending($newSpending);
+            $response = $this->repository->saveCard($resquest);
 
             if($response) {
-                return ['code' => 200, 'message' => 'Limite de gastos salvo com sucesso!'];
+                return response()->json(['message' => 'Cartão salvo com sucesso!'], 201);
             } else {
-                return ['code' => 500, 'message' => 'Erro ao salvar limite de gastos!!!'];
+                return response()->json(['message' => 'Erro ao cadastrar Cartão!'], 500);
             }
 
         } else {
-            return ['error' => $validator->errors()];
+            return response()->json(['error' => $validator->errors()], 500);
         }
     }
 

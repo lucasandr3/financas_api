@@ -11,12 +11,9 @@ use Illuminate\Support\Facades\DB;
 class CardsRepository implements CardsRepositoryInterface
 {
 
-    public function getAllSpendings()
+    public function getAllCards()
     {
-        return DB::table('spending as s')
-            ->addSelect('s.id', 's.title', 's.limit_value', 's.percent_alert', 's.final_date_spending')
-            ->get()
-        ->toArray();
+        return DB::table('cards')->get()->toArray();
     }
 
     public function getSpendingById(int $spending)
@@ -27,9 +24,24 @@ class CardsRepository implements CardsRepositoryInterface
             ->toArray();
     }
 
-    public function saveSpending(array $spending)
+    public function saveCard(object $request)
     {
-        return Spending::insert($spending);
+        try {
+
+            $card = new Card;
+            $card->company = $request->input('company');
+            $card->institution = $request->input('institution');
+            $card->title = $request->input('title');
+            $card->limit_card = $request->input('limit_card');
+            $card->annuity = $request->input('annuity');
+            $card->percent_alert = $request->input('percent_alert');
+
+            $card->save();
+            return response()->json(['user' => $card, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao cadastrar usuário!'], 409);
+        }
     }
 
     public function getTotalExpensesBySpending(int $spending)

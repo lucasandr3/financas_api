@@ -19,7 +19,7 @@ class CardsController extends Controller
 
     public function myCards()
     {
-       return $this->service->allSpendings();
+       return $this->service->allCards();
     }
 
     public function cardById(Request $request, int $spending)
@@ -34,7 +34,7 @@ class CardsController extends Controller
 
     public function newCard(Request $request)
     {
-        return $this->service->newSpending($request->all());
+        return $this->service->newCard($request);
     }
 
     public function newExpenseCard(Request $request)

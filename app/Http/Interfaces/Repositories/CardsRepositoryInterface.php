@@ -4,11 +4,11 @@ namespace App\Http\Interfaces\Repositories;
 
 interface CardsRepositoryInterface
 {
-    public function getAllSpendings();
+    public function getAllCards();
 
     public function getSpendingById(int $spending);
 
-    public function saveSpending(array $spending);
+    public function saveCard(object $request);
 
     public function getTotalExpensesBySpending(int $spending);
 

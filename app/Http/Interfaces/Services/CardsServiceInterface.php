@@ -4,13 +4,13 @@ namespace App\Http\Interfaces\Services;
 
 interface CardsServiceInterface
 {
-    public function allSpendings();
+    public function allCards();
 
     public function getSpending(int $spending);
 
     public function getExpenses(int $spending);
 
-    public function newSpending(array $resquest);
+    public function newCard(object $resquest);
 
     public function newExpenseSpending(object $resquest);
 
