@@ -15,7 +15,7 @@
 
 // rota do front
 $router->get('/', function () use ($router) {
-    return 'Bem Vindo a Api!!!';
+    return 'Bem Vindo a Api!!';
 });
 
 // rota de teste
