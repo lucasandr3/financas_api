@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2be290f0593f30e2a7a0b545a012abd3afa25d54',
+        'reference' => 'af4c73f030cbc34d96e912cfb3d166cf4b92e472',
         'name' => 'laravel/lumen',
         'dev' => true,
     ),
@@ -349,7 +349,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2be290f0593f30e2a7a0b545a012abd3afa25d54',
+            'reference' => 'af4c73f030cbc34d96e912cfb3d166cf4b92e472',
             'dev_requirement' => false,
         ),
         'laravel/lumen-framework' => array(
@@ -368,6 +368,15 @@
             'install_path' => __DIR__ . '/../laravel/serializable-closure',
             'aliases' => array(),
             'reference' => '8148e72e6c2c3af7f05640ada1b26c3bca970f8d',
+            'dev_requirement' => false,
+        ),
+        'lcobucci/jwt' => array(
+            'pretty_version' => '3.3.3',
+            'version' => '3.3.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/jwt',
+            'aliases' => array(),
+            'reference' => 'c1123697f6a2ec29162b82f170dd4a491f524773',
             'dev_requirement' => false,
         ),
         'league/flysystem' => array(
@@ -423,6 +432,15 @@
             'replaced' => array(
                 0 => '1.10.2',
             ),
+        ),
+        'namshi/jose' => array(
+            'pretty_version' => '7.2.3',
+            'version' => '7.2.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../namshi/jose',
+            'aliases' => array(),
+            'reference' => '89a24d7eb3040e285dd5925fcad992378b82bcff',
+            'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
             'pretty_version' => '2.54.0',
@@ -938,6 +956,15 @@
             'reference' => '9174a3d80210dca8daa7f31fec659150bbeabfc6',
             'dev_requirement' => false,
         ),
+        'symfony/polyfill-php56' => array(
+            'pretty_version' => 'v1.20.0',
+            'version' => '1.20.0.0',
+            'type' => 'metapackage',
+            'install_path' => NULL,
+            'aliases' => array(),
+            'reference' => '54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675',
+            'dev_requirement' => false,
+        ),
         'symfony/polyfill-php72' => array(
             'pretty_version' => 'v1.23.0',
             'version' => '1.23.0.0',
@@ -1042,6 +1069,17 @@
             'aliases' => array(),
             'reference' => '34a41e998c2183e22995f158c581e7b5e755ab9e',
             'dev_requirement' => true,
+        ),
+        'tymon/jwt-auth' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tymon/jwt-auth',
+            'aliases' => array(
+                0 => '1.0.x-dev',
+            ),
+            'reference' => 'ab00f2d7cce5f043067aef7849cdc792de2df635',
+            'dev_requirement' => false,
         ),
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.4.0',

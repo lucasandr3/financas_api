@@ -36,7 +36,7 @@ class CardsService implements CardsServiceInterface
             return $spending;
         }, $spendings);
 
-        return $spendings;
+        return response()->json($spendings, '200');
     }
 
     public function getSpending(int $spending)

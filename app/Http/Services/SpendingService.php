@@ -56,7 +56,7 @@ class SpendingService implements SpendingServiceInterface
             return $spendingObj;
         }, $spendingObject);
 
-        return ['code' => 200, 'spending' => $spendingObject];
+        return response()->json($spendingObject, '200');
     }
 
     public function getExpenses(int $spending)
