@@ -89,7 +89,7 @@ $router->group([
 
 // rota de Empréstimos
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/lendings'
 ], function () use ($router) {
     $router->get('/', 'LendingsController@myLendings');

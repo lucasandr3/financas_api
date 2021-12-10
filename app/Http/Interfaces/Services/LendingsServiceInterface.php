@@ -8,5 +8,7 @@ interface LendingsServiceInterface
 
     public function getLending(int $lending);
 
+    public function getInstallments(int $lending);
+
     public function newLending(object $request);
 }

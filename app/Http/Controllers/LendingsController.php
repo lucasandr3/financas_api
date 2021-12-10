@@ -27,9 +27,9 @@ class LendingsController extends Controller
         return $this->service->getLending($lending);
     }
 
-    public function lendingInstallments(Request $request, int $spending)
+    public function lendingInstallments(Request $request, int $lending)
     {
-        return $this->service->getExpenses($spending);
+        return $this->service->getInstallments($lending);
     }
 
     public function newLending(Request $request)
