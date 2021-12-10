@@ -19,17 +19,12 @@ class CategoriesSuggestionController extends Controller
 
     public function categories()
     {
-       return $this->service->allCategories();
+        return $this->service->allCategories();
     }
 
-    public function cardById(Request $request, int $card)
+    public function categoryById(Request $request, int $category)
     {
-        return $this->service->getCard($card);
-    }
-
-    public function cardExpenses(Request $request, int $card)
-    {
-        return $this->service->getExpenses($card);
+        return $this->service->getCategory($category);
     }
 
     public function newCategory(Request $request)

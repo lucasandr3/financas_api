@@ -6,9 +6,7 @@ interface CategoriesSuggestionServiceInterface
 {
     public function allCategories();
 
-    public function getCard(int $card);
-
-    public function getExpenses(int $card);
+    public function getCategory(int $category);
 
     public function newCategory(object $resquest);
 }

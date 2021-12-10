@@ -104,8 +104,7 @@ $router->group([
     'prefix' => 'api/category_suggestions'
 ], function () use ($router) {
     $router->get('/', 'CategoriesSuggestionController@categories');
-    $router->get('/{lending}', 'CategoriesSuggestionController@lendingById');
-    $router->get('/installments/{lending}', 'CategoriesSuggestionController@lendingInstallments');
+    $router->get('/{category}', 'CategoriesSuggestionController@categoryById');
     $router->post('new', 'CategoriesSuggestionController@newCategory');
 });
 
