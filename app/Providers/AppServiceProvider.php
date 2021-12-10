@@ -44,5 +44,9 @@ class AppServiceProvider extends ServiceProvider
         // Binds Lendings
         $this->app->bind(\App\Http\Interfaces\Services\LendingsServiceInterface::class, \App\Http\Services\LendingsService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\LendingsRepositoryInterface::class, \App\Http\Repositories\LendingsRepository::class);
+
+        // Binds Categories Suggestions
+        $this->app->bind(\App\Http\Interfaces\Services\CategoriesSuggestionServiceInterface::class, \App\Http\Services\CategoriesSuggestionService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\CategoriesSuggestionRepositoryInterface::class, \App\Http\Repositories\CategoriesSuggestionRepository::class);
     }
 }

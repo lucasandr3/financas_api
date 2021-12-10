@@ -98,3 +98,14 @@ $router->group([
     $router->post('new', 'LendingsController@newLending');
 });
 
+// rota de Categorias de Sugestoes
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/category/suggestions'
+], function () use ($router) {
+    $router->get('/', 'CategoriesSuggestionController@categories');
+    $router->get('/{lending}', 'CategoriesSuggestionController@lendingById');
+    $router->get('/installments/{lending}', 'CategoriesSuggestionController@lendingInstallments');
+    $router->post('new', 'CategoriesSuggestionController@newLending');
+});
+
