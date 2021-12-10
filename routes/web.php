@@ -100,11 +100,21 @@ $router->group([
 
 // rota de Categorias de Sugestoes
 $router->group([
-//    'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'api/category_suggestions'
 ], function () use ($router) {
     $router->get('/', 'CategoriesSuggestionController@categories');
     $router->get('/{category}', 'CategoriesSuggestionController@categoryById');
     $router->post('new', 'CategoriesSuggestionController@newCategory');
+});
+
+// rota de Sugestoes
+$router->group([
+    'middleware' => 'auth',
+    'prefix' => 'api/suggestions'
+], function () use ($router) {
+    $router->get('/', 'SuggestionController@mySuggestions');
+    $router->get('/{category}', 'SuggestionController@suggestionById');
+    $router->post('new', 'SuggestionController@newSuggestion');
 });
 
