@@ -76,23 +76,20 @@ class CategoriesSuggestionService implements CategoriesSuggestionServiceInterfac
         return response()->json($expenses, 201);
     }
 
-    public function newCard(object $resquest)
+    public function newCategory(object $resquest)
     {
         $validator = Validator::make($resquest->all(), [
-            'company' => 'required',
-            'institution' => 'required',
-            'limit_card' => 'required',
-            'percent_alert' => 'required'
+            'name' => 'required|string',
         ]);
 
         if (!$validator->fails()) {
 
-            $response = $this->repository->saveCard($resquest);
+            $response = $this->repository->saveCategory($resquest);
 
             if ($response) {
-                return response()->json(['message' => 'Cartão salvo com sucesso!'], 201);
+                return response()->json(['message' => 'Categoria salvo com sucesso!'], 201);
             } else {
-                return response()->json(['message' => 'Erro ao cadastrar Cartão!'], 500);
+                return response()->json(['message' => 'Erro ao cadastrar Categoria!'], 500);
             }
 
         } else {

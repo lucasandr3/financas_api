@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\Repositories\CategoriesSuggestionRepositoryInterface;
 use App\Models\Card;
+use App\Models\CategorySuggestion;
 use Illuminate\Support\Facades\DB;
 
 class CategoriesSuggestionRepository implements CategoriesSuggestionRepositoryInterface
@@ -22,23 +23,18 @@ class CategoriesSuggestionRepository implements CategoriesSuggestionRepositoryIn
             ->toArray();
     }
 
-    public function saveCard(object $request)
+    public function saveCategory(object $request)
     {
         try {
 
-            $card = new Card;
-            $card->company = $request->input('company');
-            $card->institution = $request->input('institution');
-            $card->title = $request->input('title');
-            $card->limit_card = $request->input('limit_card');
-            $card->annuity = $request->input('annuity');
-            $card->percent_alert = $request->input('percent_alert');
+            $category = new CategorySuggestion;
+            $category->name = $request->input('name');
 
-            $card->save();
-            return response()->json(['user' => $card, 'message' => 'CREATED'], 201);
+            $category->save();
+            return response()->json(['user' => $category, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao cadastrar usuário!'], 409);
+            return response()->json(['message' => 'Erro ao cadastrar categoria!'], 409);
         }
     }
 

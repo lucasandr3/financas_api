@@ -32,8 +32,8 @@ class CategoriesSuggestionController extends Controller
         return $this->service->getExpenses($card);
     }
 
-    public function newCard(Request $request)
+    public function newCategory(Request $request)
     {
-        return $this->service->newCard($request);
+        return $this->service->newCategory($request);
     }
 }

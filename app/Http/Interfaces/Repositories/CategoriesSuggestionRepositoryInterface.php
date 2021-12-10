@@ -8,7 +8,7 @@ interface CategoriesSuggestionRepositoryInterface
 
     public function getCardById(int $card);
 
-    public function saveCard(object $request);
+    public function saveCategory(object $request);
 
     public function getInstallmentsByCard(int $card);
 

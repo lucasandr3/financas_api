@@ -10,5 +10,5 @@ interface CategoriesSuggestionServiceInterface
 
     public function getExpenses(int $card);
 
-    public function newCard(object $resquest);
+    public function newCategory(object $resquest);
 }
