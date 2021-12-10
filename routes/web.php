@@ -54,17 +54,6 @@ $router->group([
     $router->post('new', 'ExpenseController@newExpense');
 });
 
-// rota de eventos de receitas
-$router->group([
-    'middleware' => 'auth',
-    'prefix' => 'api/event/revenues'
-], function () use ($router) {
-    $router->get('/', 'EventRevenueController@revenues');
-    $router->get('/{event}', 'EventRevenueController@revenueById');
-    $router->get('/installments/{event}', 'EventRevenueController@installments');
-    $router->post('new', 'EventRevenueController@newRevenue');
-});
-
 // rota de limite de gastos
 $router->group([
     'middleware' => 'auth',
