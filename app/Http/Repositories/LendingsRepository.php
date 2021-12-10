@@ -20,12 +20,37 @@ class LendingsRepository implements LendingsRepositoryInterface
         ->toArray();
     }
 
-    public function getSpendingById(int $spending)
+    public function getLendingById(int $lending)
     {
-        return DB::table('spending as s')
-            ->where('s.id', $spending)
+        return DB::table('lendings as l')
+            ->addSelect('l.id', 'l.title', 'l.reason', 'l.value_lending', 'l.interest', 'l.installments', 'l.quantity_installments', 'l.pay_date')
+            ->addSelect('fc.name')
+            ->join('financial_categories as fc', 'fc.id', '=', 'l.category')
+            ->where('l.id', $lending)
             ->get()
             ->toArray();
+    }
+
+    public function getInstallmentsByLending(int $lending)
+    {
+        return DB::table('lending_installments as li')
+            ->select('li.id', 'li.installment', 'li.value_installment', 'li.pay')
+            ->where('li.lending', $lending)
+            ->get()->toArray();
+    }
+
+    public function totalContracted(int $lending)
+    {
+        return DB::table('lendings')
+            ->where('id', $lending)
+            ->sum('value_lending');
+    }
+
+    public function totalContractedInterest(int $lending)
+    {
+        return DB::table('lending_installments')
+            ->where('lending', $lending)
+            ->sum('value_installment');
     }
 
     public function saveLeading(object $request)

@@ -38,24 +38,53 @@ class LendingsService implements LendingsServiceInterface
         return response()->json($lendings, 201);
     }
 
-    public function getLending(int $spending)
+    public function getLending(int $lending)
     {
-        $spendingObject = $this->repository->getSpendingById($spending);
+        $lendingObject = $this->repository->getLendingById($lending);
 
-        if(!sizeof($spendingObject) > 0) {
-            return ['code' => 204, 'message' => 'Limite de gastos não existe.'];
+        if(!sizeof($lendingObject) > 0) {
+            return ['code' => 204, 'message' => 'Empréstimo não existe.'];
         }
 
-        $spendingObject = array_map(function($spendingObj) {
-            $spendingObj->limit_value = Helpers::formatMoney($spendingObj->limit_value);
-            $spendingObj->percent_alert = $spendingObj->percent_alert . "%";
-            $spendingObj->final_date_spending = Helpers::formatDateSimple($spendingObj->final_date_spending);
-            $spendingObj->total_spending_expenses = Helpers::formatMoney($this->getTotalSpendingExpensesByCategory($spendingObj->id));
-            $spendingObj->spending_expenses = $this->getExpensesBySpending($spendingObj->id);
-            return $spendingObj;
-        }, $spendingObject);
+        $installmentsLending = $this->getInstallments($lending);
+        $totalContracted = $this->repository->totalContracted($lending);
+        $totalContractedInterest = $this->repository->totalContractedInterest($lending);
 
-        return ['code' => 200, 'spending' => $spendingObject];
+        $totais = [
+            'totalContracted' => Helpers::formatMoney($totalContracted),
+            'totalContractedInterest' => Helpers::formatMoney($totalContractedInterest)
+        ];
+
+        $lendingObject = array_map(function($lendingObj) use ($installmentsLending, $totais) {
+            $lendingObj->value_lending = Helpers::formatMoney($lendingObj->value_lending);
+            $lendingObj->interest = Helpers::formatInterest($lendingObj->interest);
+            $lendingObj->pay_date = Helpers::formatDateSimple($lendingObj->pay_date);
+            $lendingObj->installments = ($lendingObj->installments === 0) ? 'Pagamento único' : 'Parcelado';
+            $lendingObj->installments_object = $installmentsLending;
+            $lendingObj->totais = $totais;
+            return $lendingObj;
+        }, $lendingObject);
+
+        return response()->json($lendingObject, 201);
+    }
+
+    public function getInstallments(int $lending)
+    {
+        $installments = $this->repository->getInstallmentsByLending($lending);
+
+        if(!sizeof($installments) > 0) {
+            return ['code' => 200, 'message' => 'Empréstimo não possui parcelamentos'];
+            die;
+        }
+
+        $installments = array_map(function($installment) {
+            $installment->installment = $installment->installment.'ª' . ' Parcela';
+            $installment->value_installment = Helpers::formatMoney($installment->value_installment);
+            $installment->pay = Helpers::formatDateSimple($installment->pay);
+            return $installment;
+        }, $installments);
+
+        return ['code' => 200, 'installments' => $installments];
     }
 
     public function getExpenses(int $spending)
