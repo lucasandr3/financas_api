@@ -4,8 +4,6 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\Repositories\CardsRepositoryInterface;
 use App\Models\Card;
-use App\Models\CardExpenses;
-use App\Models\CardInstallments;
 use Illuminate\Support\Facades\DB;
 
 class CardsRepository implements CardsRepositoryInterface
@@ -46,7 +44,7 @@ class CardsRepository implements CardsRepositoryInterface
 
     public function getTotalExpensesByCard(int $card)
     {
-        return DB::table('expenses')
+        return DB::table('card_expenses')
             ->where('card', $card)
             ->sum('value');
     }
@@ -60,22 +58,22 @@ class CardsRepository implements CardsRepositoryInterface
 
     public function getExpensesByCard(int $card)
     {
-        return DB::table('expenses as e')
-            ->addSelect('e.id', 'e.company', 'e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo')
+        return DB::table('card_expenses as ce')
+            ->addSelect('ce.id', 'ce.company', 'ce.title', 'ce.description', 'ce.value', 'ce.installments', 'ce.quantity_installments', 'ce.photo', 'ce.date_pay as date_sale')
             ->addSelect('c.institution')
-            ->join('cards as c', 'c.id', '=', 'e.card')
-            ->where('e.card', $card)
+            ->join('cards as c', 'c.id', '=', 'ce.card')
+            ->where('ce.card', $card)
             ->get()
             ->toArray();
     }
 
     public function getInstallmentsByCardExpense(int $expense)
     {
-        return DB::table('expense_installments as ei')
-            ->select('ei.id', 'ei.installment', 'ei.value_installment', 'ei.pay')
-            ->addSelect('e.value as total_expense', 'e.quantity_installments', 'e.title', 'e.description')
-            ->join('expenses as e', 'e.id', '=', 'ei.expense')
-            ->where('ei.expense', $expense)
+        return DB::table('card_installments as ci')
+            ->select('ci.id', 'ci.installment', 'ci.value_installment', 'ci.pay')
+            ->addSelect('ce.value as total_expense', 'ce.quantity_installments', 'ce.title', 'ce.description')
+            ->join('card_expenses as ce', 'ce.id', '=', 'ci.card')
+            ->where('ci.card_expense', $expense)
             ->get()->toArray();
     }
 
@@ -106,5 +104,13 @@ class CardsRepository implements CardsRepositoryInterface
     public function saveExpense(array $expense)
     {
         return SpendingExpenses::insert($expense);
+    }
+
+    public function getInstallmentsByCard(int $card)
+    {
+        return DB::table('card_installments as ci')
+            ->select('ci.id', 'ci.installment', 'ci.value_installment', 'ci.pay')
+            ->where('ci.card_expense', $card)
+            ->get()->toArray();
     }
 }

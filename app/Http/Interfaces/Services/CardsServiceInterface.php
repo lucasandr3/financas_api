@@ -11,8 +11,4 @@ interface CardsServiceInterface
     public function getExpenses(int $card);
 
     public function newCard(object $resquest);
-
-    public function newExpenseSpending(object $resquest);
-
-    public function getTotalSpendingExpensesByCategory(int $spending);
 }
