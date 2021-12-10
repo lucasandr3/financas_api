@@ -54,7 +54,7 @@ $router->group([
     $router->post('new', 'ExpenseController@newExpense');
 });
 
-// rota de limite de gastos
+// rota de gastos relacionados
 $router->group([
     'middleware' => 'auth',
     'prefix' => 'api/spendings'

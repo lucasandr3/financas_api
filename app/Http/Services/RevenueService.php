@@ -109,13 +109,15 @@ class RevenueService implements RevenueServiceInterface
             'id_category' => 'required|int',
             'title' => 'required|string',
             'value' => 'required',
-            'photo' => 'required|file|mimes:jpg,png'
+            'photo' => 'file|mimes:jpg,png'
         ]);
 
         if(!$validator->fails()) {
 
-            $file = $request->file('photo')->store('public');
-            $nameFile = explode('public/', $file);
+            if($request->file('photo')) {
+                $file = $request->file('photo')->store('public');
+                $nameFile = explode('public/', $file);
+            }
 
             $newRevenue = [
                 'company' => $request['company'],
@@ -125,7 +127,7 @@ class RevenueService implements RevenueServiceInterface
                 'value' => $request['value'],
                 'installments' => $request['installments'],
                 'quantity_installments' => $request['quantity_installments'],
-                'photo' => $nameFile[1]
+                'photo' => isset($nameFile[1]) ?? ''
             ];
 
             $response = $this->repository->saveRevenue($newRevenue);

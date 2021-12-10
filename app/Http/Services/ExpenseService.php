@@ -102,9 +102,9 @@ class ExpenseService implements ExpenseServiceInterface
         return $installments;
     }
 
-    public function newExpense(object $resquest)
+    public function newExpense(object $request)
     {
-        $validator = Validator::make($resquest->all(), [
+        $validator = Validator::make($request->all(), [
             'company' => 'required',
             'id_category' => 'required|int',
             'title' => 'required|string',
@@ -114,8 +114,10 @@ class ExpenseService implements ExpenseServiceInterface
 
         if(!$validator->fails()) {
 
-            $file = $resquest->file('photo')->store('public');
-            $nameFile = explode('public/', $file);
+            if($request->file('photo')) {
+                $file = $request->file('photo')->store('public');
+                $nameFile = explode('public/', $file);
+            }
 
             $newExpense = [
                 'company' => $resquest['company'],
@@ -125,7 +127,7 @@ class ExpenseService implements ExpenseServiceInterface
                 'value' => $resquest['value'],
                 'installments' => $resquest['installments'],
                 'quantity_installments' => $resquest['quantity_installments'],
-                'photo' => $nameFile[1]
+                'photo' => isset($nameFile[1]) ?? ''
             ];
 
             if($newExpense['installments'] == 1) {
