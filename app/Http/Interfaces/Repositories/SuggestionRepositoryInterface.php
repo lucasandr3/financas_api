@@ -4,7 +4,7 @@ namespace App\Http\Interfaces\Repositories;
 
 interface SuggestionRepositoryInterface
 {
-    public function allSuggestions();
+    public function allSuggestions(int $user);
 
     public function getSuggestion(int $suggestion);
 

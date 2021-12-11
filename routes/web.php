@@ -113,8 +113,8 @@ $router->group([
     'middleware' => 'auth',
     'prefix' => 'api/suggestions'
 ], function () use ($router) {
-    $router->get('/', 'SuggestionController@mySuggestions');
-    $router->get('/{category}', 'SuggestionController@suggestionById');
+    $router->get('/user', 'SuggestionController@mySuggestions');
+    $router->get('/{suggestion}', 'SuggestionController@suggestionById');
     $router->post('new', 'SuggestionController@newSuggestion');
 });
 

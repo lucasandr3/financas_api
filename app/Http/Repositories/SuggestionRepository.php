@@ -10,9 +10,16 @@ use Illuminate\Support\Facades\DB;
 class SuggestionRepository implements SuggestionRepositoryInterface
 {
 
-    public function allSuggestions()
+    public function allSuggestions(int $user)
     {
-        return Suggestion::all();
+        return DB::table('suggestions as s')
+            ->addSelect('s.id', 's.title', 's.suggestion', 's.date_suggestion')
+            ->addSelect('cs.name as category')
+            ->addSelect('us.full_name as user')
+            ->join('categories_suggestion as cs', 'cs.id', '=', 's.category_suggestion')
+            ->join('users as us', 'us.id', '=', 's.user_id')
+            ->where('s.user_id', $user)
+        ->get()->toArray();
     }
 
     public function getSuggestion(int $sugestion)
@@ -27,7 +34,7 @@ class SuggestionRepository implements SuggestionRepositoryInterface
         try {
 
             $sugestion = new Suggestion;
-            $sugestion->user_id = $request->input('user_id');
+            $sugestion->user_id = auth()->user()->getAuthIdentifier();
             $sugestion->category_suggestion = $request->input('category_suggestion');
             $sugestion->title = $request->input('title');
             $sugestion->suggestion = $request->input('suggestion');

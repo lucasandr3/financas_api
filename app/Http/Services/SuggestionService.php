@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Helpers\Helpers;
 use App\Http\Interfaces\Repositories\SuggestionRepositoryInterface;
 use App\Http\Interfaces\Services\SuggestionServiceInterface;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +21,13 @@ class SuggestionService implements SuggestionServiceInterface
 
     public function allSuggestions()
     {
-        $suggestions = $this->repository->allSuggestions();
+        $suggestions = $this->repository->allSuggestions(auth()->user()->getAuthIdentifier());
+
+        $suggestions = array_map(function ($suggestion) {
+            $suggestion->date_suggestion = Helpers::formatDateSimple($suggestion->date_suggestion);
+            return $suggestion;
+        }, $suggestions);
+
         return response()->json($suggestions, 201);
     }
 
@@ -38,7 +45,6 @@ class SuggestionService implements SuggestionServiceInterface
     public function newSuggestion(object $resquest)
     {
         $validator = Validator::make($resquest->all(), [
-            'user_id' => 'required',
             'category_suggestion' => 'required',
             'title' => 'required|string',
             'suggestion' => 'required|string'

@@ -48,5 +48,9 @@ class AppServiceProvider extends ServiceProvider
         // Binds Categories Suggestions
         $this->app->bind(\App\Http\Interfaces\Services\CategoriesSuggestionServiceInterface::class, \App\Http\Services\CategoriesSuggestionService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\CategoriesSuggestionRepositoryInterface::class, \App\Http\Repositories\CategoriesSuggestionRepository::class);
+
+        // Binds Categories Suggestions
+        $this->app->bind(\App\Http\Interfaces\Services\SuggestionServiceInterface::class, \App\Http\Services\SuggestionService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\SuggestionRepositoryInterface::class, \App\Http\Repositories\SuggestionRepository::class);
     }
 }
