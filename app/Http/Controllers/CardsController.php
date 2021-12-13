@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Interfaces\Services\CardsServiceInterface;
 use Illuminate\Http\Request;
+use App\Models\Traits\UserIDTrait;
 
 class CardsController extends Controller
 {
@@ -19,7 +20,7 @@ class CardsController extends Controller
 
     public function myCards()
     {
-       return $this->service->allCards();
+        return $this->service->allCards();
     }
 
     public function cardById(Request $request, int $card)

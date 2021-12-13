@@ -26,10 +26,17 @@ $router->get('/api/test/ping', function () use ($router) {
 // rota de nao autorizado
 $router->get('/404', 'AuthController@unauthorized');
 
+// rotas publicas de autenticação
+$router->post('api/auth/register', 'AuthController@register');
+$router->post('api/auth/login', 'AuthController@login');
+
 // rota de login
-$router->group(['prefix' => 'api/auth'], function () use ($router) {
-    $router->post('/register', 'AuthController@register');
-    $router->post('/login', 'AuthController@login');
+$router->group([
+    'middleware' => 'auth',
+    'prefix' => 'api/auth'
+], function () use ($router) {
+    $router->post('/validate_token', 'AuthController@validateToken');
+    $router->post('/logout', 'AuthController@logout');
 });
 
 // rota de receitas
@@ -89,7 +96,7 @@ $router->group([
 
 // rota de Empréstimos
 $router->group([
-//    'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'api/lendings'
 ], function () use ($router) {
     $router->get('/', 'LendingsController@myLendings');

@@ -11,13 +11,17 @@ class CardsRepository implements CardsRepositoryInterface
 
     public function getAllCards()
     {
-        return DB::table('cards')->get()->toArray();
+        return DB::table('cards')
+            ->where('user_id', auth()->user()->getAuthIdentifier())
+            ->get()
+        ->toArray();
     }
 
     public function getCardById(int $card)
     {
         return DB::table('cards as c')
             ->where('c.id', $card)
+            ->where('user_id', auth()->user()->getAuthIdentifier())
             ->get()
             ->toArray();
     }
@@ -27,7 +31,6 @@ class CardsRepository implements CardsRepositoryInterface
         try {
 
             $card = new Card;
-            $card->company = $request->input('company');
             $card->institution = $request->input('institution');
             $card->title = $request->input('title');
             $card->limit_card = $request->input('limit_card');

@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'af4c73f030cbc34d96e912cfb3d166cf4b92e472',
+        'reference' => 'f28900376baaa8324f7644e62159182880a37789',
         'name' => 'laravel/lumen',
         'dev' => true,
     ),
@@ -349,7 +349,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'af4c73f030cbc34d96e912cfb3d166cf4b92e472',
+            'reference' => 'f28900376baaa8324f7644e62159182880a37789',
             'dev_requirement' => false,
         ),
         'laravel/lumen-framework' => array(
@@ -522,6 +522,15 @@
             'aliases' => array(),
             'reference' => 'a12f7e301eb7258bb68acd89d4aefa05c2906cae',
             'dev_requirement' => true,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.5.3',
+            'version' => '6.5.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'reference' => 'baeb7cde6b60b1286912690ab0693c7789a31e71',
+            'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.8.0',

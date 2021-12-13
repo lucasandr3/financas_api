@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Events\Registration;
 use App\Http\Interfaces\Repositories\AuthRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

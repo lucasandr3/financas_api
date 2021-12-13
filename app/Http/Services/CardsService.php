@@ -104,7 +104,6 @@ class CardsService implements CardsServiceInterface
     public function newCard(object $resquest)
     {
         $validator = Validator::make($resquest->all(), [
-            'company' => 'required',
             'institution' => 'required',
             'limit_card' => 'required',
             'percent_alert' => 'required'

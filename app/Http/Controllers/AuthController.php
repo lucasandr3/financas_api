@@ -14,6 +14,7 @@ class AuthController extends Controller
         AuthServiceInterface $service
     )
     {
+//        $this->middleware('auth', ['except' => ['login', 'register']]);
         $this->service = $service;
     }
 
@@ -25,6 +26,23 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         return $this->service->login($request);
+    }
+
+    public function validateToken()
+    {
+        $user = auth()->user();
+
+        if($user) {
+            return response()->json($user);
+        } else {
+            return $this->logout();
+        }
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        return 'Unauthorized';
     }
 
     public function unauthorized()
