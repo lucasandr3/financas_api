@@ -10,6 +10,8 @@ interface CardsRepositoryInterface
 
     public function saveCard(object $request);
 
+    public function updateCard(object $request, int $card);
+
     public function getInstallmentsByCard(int $card);
 
     public function getTotalExpensesByCard(int $card);

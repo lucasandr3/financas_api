@@ -11,4 +11,6 @@ interface CardsServiceInterface
     public function getExpenses(int $card);
 
     public function newCard(object $resquest);
+
+    public function editCard(object $resquest, int $card);
 }

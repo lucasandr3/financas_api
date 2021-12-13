@@ -37,4 +37,9 @@ class CardsController extends Controller
     {
         return $this->service->newCard($request);
     }
+
+    public function editCard(Request $request, int $card)
+    {
+        return $this->service->editCard($request, $card);
+    }
 }

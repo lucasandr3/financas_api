@@ -45,6 +45,25 @@ class CardsRepository implements CardsRepositoryInterface
         }
     }
 
+    public function updateCard(object $request, int $card)
+    {
+        try {
+
+            $editCard = Card::find($card);
+            $editCard->institution = $request->input('institution');
+            $editCard->title = $request->input('title');
+            $editCard->limit_card = $request->input('limit_card');
+            $editCard->annuity = $request->input('annuity');
+            $editCard->percent_alert = $request->input('percent_alert');
+
+            $editCard->save();
+            return response()->json(['user' => $editCard, 'message' => 'UPDATED'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 409);
+        }
+    }
+
     public function getTotalExpensesByCard(int $card)
     {
         return DB::table('card_expenses')

@@ -124,6 +124,29 @@ class CardsService implements CardsServiceInterface
         }
     }
 
+    public function editCard(object $resquest, int $card)
+    {
+        $validator = Validator::make($resquest->all(), [
+            'institution' => 'required',
+            'limit_card' => 'required',
+            'percent_alert' => 'required'
+        ]);
+
+        if (!$validator->fails()) {
+
+            $response = $this->repository->UpdateCard($resquest, $card);
+
+            if ($response) {
+                return response()->json(['message' => 'Cartão atualizado com sucesso!'], 201);
+            } else {
+                return response()->json(['message' => 'Erro ao atualizar Cartão!'], 500);
+            }
+
+        } else {
+            return response()->json(['error' => $validator->errors()], 500);
+        }
+    }
+
     private function getExpensesByCard(int $card)
     {
         $expenses = $this->repository->getExpensesByCard($card);

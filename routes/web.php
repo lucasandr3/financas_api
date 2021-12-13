@@ -89,6 +89,7 @@ $router->group([
     'prefix' => 'api/cards'
 ], function () use ($router) {
     $router->get('/', 'CardsController@myCards');
+    $router->post('/edit/{card}', 'CardsController@editCard');
     $router->get('/{card}', 'CardsController@cardById');
     $router->get('/{card}/expenses', 'CardsController@cardExpenses');
     $router->post('new', 'CardsController@newCard');
