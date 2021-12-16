@@ -67,6 +67,34 @@ class ExpenseRepository implements ExpenseRepositoryInterface
         }
     }
 
+    public function editExpense(int $expense, object $request, string $fileName)
+    {
+        try {
+            $expenseEdit = Expense::find($expense);
+            $expenseEdit->id_category_expense = $request->input('id_category');
+            $expenseEdit->card = $request->input('card');
+            $expenseEdit->title = $request->input('title');
+            $expenseEdit->description = $request->input('description');
+            $expenseEdit->value = $request->input('value');
+            $expenseEdit->installments = $request->input('installments');
+            $expenseEdit->quantity_installments = $request->input('quantity_installments');
+            $expenseEdit->photo = isset($fileName) ?? null;
+
+            $expenseEdit->save();
+
+            if($request->input('installments') > 0) {
+                $this->delInstallmentsEdit($expenseEdit->id);
+                $this->saveInstallmentsExpense($expenseEdit);
+            }
+
+            return response()->json(['expense' => $expenseEdit, 'message' => 'UPDATED'], 200);
+
+        } catch (\Exception $e) {
+            ExpenseInstallments::where('id', $expenseEdit->id)->delete();
+            return response()->json(['message' => 'Erro ao atualizar despesa!'], 200);
+        }
+    }
+
     public function saveInstallmentsExpense($newExpense)
     {
         $valueInstallment = ($newExpense->value / $newExpense->quantity_installments);
@@ -80,6 +108,11 @@ class ExpenseRepository implements ExpenseRepositoryInterface
             $newExpenseInstallments->pay = date('Y-m-d', strtotime($newExpense->pay . "+$im month"));
             $newExpenseInstallments->save();
         }
+    }
+
+    public function delInstallmentsEdit(int $expense)
+    {
+        return ExpenseInstallments::where('expense', $expense)->delete();
     }
 
     public function getExpenseByCategory(int $category)

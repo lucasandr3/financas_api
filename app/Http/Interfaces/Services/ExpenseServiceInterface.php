@@ -17,4 +17,6 @@ interface ExpenseServiceInterface
     public function newExpense(object $resquest);
 
     public function deleteExpense(int $expense);
+
+    public function editExpense(object $request, int $expense);
 }

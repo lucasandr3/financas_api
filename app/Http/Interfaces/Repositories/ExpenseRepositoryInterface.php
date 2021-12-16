@@ -16,7 +16,11 @@ interface ExpenseRepositoryInterface
 
     public function saveExpense(object $request, string $fileName);
 
+    public function editExpense(int $expense, object $request, string $fileName);
+
     public function saveInstallmentsExpense($newExpense);
+
+    public function delInstallmentsEdit(int $expense);
 
     public function delExpense(int $expense);
 }

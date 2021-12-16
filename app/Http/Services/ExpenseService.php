@@ -156,4 +156,34 @@ class ExpenseService implements ExpenseServiceInterface
 
         return $this->repository->delExpense($expense);
     }
+
+    public function editExpense(object $request, int $expense)
+    {
+        $expenseObject = $this->repository->getExpenseById($expense);
+
+        if(!sizeof($expenseObject) > 0) {
+            return response()->json(['message' => 'Oopss, Despesa não existe!!'], 200);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'id_category' => 'required|int',
+            'title' => 'required|string',
+            'value' => 'required',
+            'photo' => 'file|mimes:jpg,png'
+        ]);
+
+        if(!$validator->fails()) {
+
+            if($request->file('photo')) {
+                $file = $request->file('photo')->store('public');
+                $fileName = explode('public/', $file);
+                return $this->repository->editExpense($expense, $request, $fileName);
+            } else {
+                return $this->repository->editExpense($expense, $request, 'null');
+            }
+
+        } else {
+            return response()->json(['message' => $validator->errors()], 200);
+        }
+    }
 }

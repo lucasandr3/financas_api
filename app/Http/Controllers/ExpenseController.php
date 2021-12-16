@@ -41,4 +41,9 @@ class ExpenseController extends Controller
     {
         return $this->service->deleteExpense($expense);
     }
+
+    public function editExpense(Request $request, int $expense)
+    {
+        return $this->service->editExpense($request, $expense);
+    }
 }

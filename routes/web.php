@@ -62,6 +62,7 @@ $router->group([
     $router->get('/installments/{expense}', 'ExpenseController@installments');
     $router->post('new', 'ExpenseController@newExpense');
     $router->delete('delete/{expense}', 'ExpenseController@deleteExpense');
+    $router->put('edit/{expense}', 'ExpenseController@editExpense');
 });
 
 // rota de gastos relacionados
