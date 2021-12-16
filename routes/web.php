@@ -41,7 +41,7 @@ $router->group([
 
 // rota de receitas
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/revenues'
 ], function () use ($router) {
     $router->get('/', 'RevenueController@revenues');
@@ -50,6 +50,7 @@ $router->group([
     $router->get('/installments/{revenue}', 'RevenueController@installments');
     $router->post('new', 'RevenueController@newRevenue');
     $router->delete('delete/{revenue}', 'RevenueController@deleteRevenue');
+    $router->put('edit/{revenue}', 'RevenueController@editRevenue');
 });
 
 // rota de despesas

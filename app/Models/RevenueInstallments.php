@@ -17,12 +17,12 @@ class RevenueInstallments extends Model
 
         static::creating(function($model) {
 //            $model->user_id = auth()->user()->getAuthIdentifier();
-            $model->user_id = 2;
+            $model->user_id = 1;
         });
 
         static::addGlobalScope('userID', function (Builder $builder) {
 //            $builder->where('user_id', '=', auth()->user()->getAuthIdentifier());
-            $builder->where('user_id', '=', 2);
+            $builder->where('user_id', '=', 1);
         });
     }
 }

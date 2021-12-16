@@ -66,6 +66,34 @@ class RevenueRepository implements RevenueRepositoryInterface
         }
     }
 
+    public function editRevenue(int $revenue, object $request, string $fileName)
+    {
+        try {
+            $revenueEdit = Revenue::find($revenue);
+            $revenueEdit->id_category = $request->input('id_category');
+            $revenueEdit->card = $request->input('card');
+            $revenueEdit->title = $request->input('title');
+            $revenueEdit->description = $request->input('description');
+            $revenueEdit->value = $request->input('value');
+            $revenueEdit->installments = $request->input('installments');
+            $revenueEdit->quantity_installments = $request->input('quantity_installments');
+            $revenueEdit->photo = isset($fileName) ?? null;
+
+            $revenueEdit->save();
+
+            if($request->input('installments') > 0) {
+                $this->delInstallmentsEdit($revenueEdit->id);
+                $this->saveInstallmentsRevenue($revenueEdit);
+            }
+
+            return response()->json(['expense' => $revenueEdit, 'message' => 'UPDATED'], 200);
+
+        } catch (\Exception $e) {
+            RevenueInstallments::where('id', $revenueEdit->id)->delete();
+            return response()->json(['message' => 'Erro ao atualizar receita!'], 200);
+        }
+    }
+
     public function saveInstallmentsRevenue($newRevenue)
     {
         $valueInstallment = ($newRevenue->value / $newRevenue->quantity_installments);
@@ -79,6 +107,11 @@ class RevenueRepository implements RevenueRepositoryInterface
             $newRevenueInstallments->pay = date('Y-m-d', strtotime($newRevenue->pay . "+$im month"));
             $newRevenueInstallments->save();
         }
+    }
+
+    public function delInstallmentsEdit(int $revenue)
+    {
+        return RevenueInstallments::where('revenue', $revenue)->delete();
     }
 
     public function delRevenue(int $revenue)

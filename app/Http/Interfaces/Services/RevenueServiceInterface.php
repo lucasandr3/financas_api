@@ -11,4 +11,6 @@ interface RevenueServiceInterface
     public function getInstallments(int $revenue);
 
     public function newRevenue(object $resquest);
+
+    public function editRevenue(object $request, int $revenue);
 }

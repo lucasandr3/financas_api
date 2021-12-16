@@ -136,4 +136,34 @@ class RevenueService implements RevenueServiceInterface
 
         return $this->repository->delRevenue($revenue);
     }
+
+    public function editRevenue(object $request, int $revenue)
+    {
+        $revenueObject = $this->repository->getRevenueById($revenue);
+
+        if(!sizeof($revenueObject) > 0) {
+            return response()->json(['message' => 'Oopss, Receita não existe!!'], 200);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'id_category' => 'required|int',
+            'title' => 'required|string',
+            'value' => 'required',
+            'photo' => 'file|mimes:jpg,png'
+        ]);
+
+        if(!$validator->fails()) {
+
+            if($request->file('photo')) {
+                $file = $request->file('photo')->store('public');
+                $fileName = explode('public/', $file);
+                return $this->repository->editRevenue($revenue, $request, $fileName);
+            } else {
+                return $this->repository->editRevenue($revenue, $request, 'null');
+            }
+
+        } else {
+            return response()->json(['message' => $validator->errors()], 200);
+        }
+    }
 }
