@@ -8,5 +8,5 @@ interface SpendingTargetServiceInterface
 
     public function getSpendingTarget(int $spending);
 
-    public function newSpendingTarget(array $resquest);
+    public function newSpendingTarget(object $resquest);
 }

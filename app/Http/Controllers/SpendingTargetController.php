@@ -29,6 +29,6 @@ class SpendingTargetController extends Controller
 
     public function newSpendingTarget(Request $request)
     {
-        return $this->service->newSpendingTarget($request->all());
+        return $this->service->newSpendingTarget($request);
     }
 }

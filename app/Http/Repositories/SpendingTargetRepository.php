@@ -6,6 +6,7 @@ use App\Http\Interfaces\Repositories\SpendingTargetRepositoryInterface;
 use App\Models\Spending;
 use App\Models\SpendingExpenses;
 use App\Models\SpendingInstallments;
+use App\Models\SpendingTarget;
 use Illuminate\Support\Facades\DB;
 
 class SpendingTargetRepository implements SpendingTargetRepositoryInterface
@@ -14,7 +15,7 @@ class SpendingTargetRepository implements SpendingTargetRepositoryInterface
     public function getAllSpendings()
     {
         return DB::table('spending_target as s')
-            ->addSelect('s.id', 's.company', 's.value_target', 's.limit_target_alert')
+            ->addSelect('s.id', 's.user_id', 's.value_target', 's.limit_target_alert', 's.final_date')
             ->addSelect('fc.name', 'fc.id as category_id')
             ->join('financial_categories as fc', 'fc.id', '=', 's.category_target')
             ->get()
@@ -24,7 +25,7 @@ class SpendingTargetRepository implements SpendingTargetRepositoryInterface
     public function getSpendingById(int $spending)
     {
         return DB::table('spending_target as s')
-            ->addSelect('s.id', 's.company', 's.value_target', 's.limit_target_alert')
+            ->addSelect('s.id', 's.user_id', 's.value_target', 's.limit_target_alert', 's.final_date')
             ->addSelect('fc.name as category', 'fc.id as id_category')
             ->join('financial_categories as fc', 'fc.id', '=', 's.category_target')
             ->where('s.id', $spending)
@@ -32,9 +33,21 @@ class SpendingTargetRepository implements SpendingTargetRepositoryInterface
             ->toArray();
     }
 
-    public function saveSpending(array $spending)
+    public function saveSpending(object $request)
     {
-        return Spending::insert($spending);
+        try {
+            $newSpending = new SpendingTarget;
+            $newSpending->category_target = $request->input('category_target');
+            $newSpending->value_target = $request->input('value_target');
+            $newSpending->limit_target_alert = $request->input('limit_target_alert');
+            $newSpending->final_date = $request->input('final_date');
+
+            $newSpending->save();
+            return response()->json(['data' => $newSpending, 'message' => 'CREATED'], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao criar limite de gastos!'], 200);
+        }
     }
 
     public function getTotalExpensesByCategory(int $categoryID)

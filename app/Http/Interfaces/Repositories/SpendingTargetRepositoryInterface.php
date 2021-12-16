@@ -8,7 +8,7 @@ interface SpendingTargetRepositoryInterface
 
     public function getSpendingById(int $spending);
 
-    public function saveSpending(array $spending);
+    public function saveSpending(object $request);
 
     public function getTotalExpensesByCategory(int $categoryID);
 

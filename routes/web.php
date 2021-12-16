@@ -41,7 +41,7 @@ $router->group([
 
 // rota de receitas
 $router->group([
-//    'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'api/revenues'
 ], function () use ($router) {
     $router->get('/', 'RevenueController@revenues');
