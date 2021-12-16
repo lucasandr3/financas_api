@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class RevenueInstallments extends Model
@@ -16,11 +17,12 @@ class RevenueInstallments extends Model
 
         static::creating(function($model) {
 //            $model->user_id = auth()->user()->getAuthIdentifier();
-            $model->user_id = 1;
+            $model->user_id = 2;
         });
 
-        static::retrieved(function($model) {
-            $model->user_id = auth()->user()->getAuthIdentifier();
+        static::addGlobalScope('userID', function (Builder $builder) {
+//            $builder->where('user_id', '=', auth()->user()->getAuthIdentifier());
+            $builder->where('user_id', '=', 2);
         });
     }
 }

@@ -99,4 +99,10 @@ class ExpenseRepository implements ExpenseRepositoryInterface
             ->where('id_category_expense', $category)
             ->sum('value');
     }
+
+    public function delExpense(int $expense)
+    {
+        Expense::destroy($expense);
+        return response()->json(['message' => 'Despesa removida com sucesso!!'], 200);
+    }
 }

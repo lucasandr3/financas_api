@@ -125,4 +125,15 @@ class RevenueService implements RevenueServiceInterface
             return ['error' => $validator->errors()];
         }
     }
+
+    public function deleteRevenue(int $revenue)
+    {
+        $revenueObject = $this->repository->getRevenueById($revenue);
+
+        if(!sizeof($revenueObject) > 0) {
+            return response()->json(['message' => 'Oopss, Receita não existe!!'], 200);
+        }
+
+        return $this->repository->delRevenue($revenue);
+    }
 }

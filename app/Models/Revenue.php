@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Revenue extends Model
@@ -18,8 +19,8 @@ class Revenue extends Model
             $model->user_id = auth()->user()->getAuthIdentifier();
         });
 
-        static::retrieved(function($model) {
-            $model->user_id = auth()->user()->getAuthIdentifier();
+        static::addGlobalScope('userID', function (Builder $builder) {
+            $builder->where('user_id', '=', auth()->user()->getAuthIdentifier());
         });
     }
 }

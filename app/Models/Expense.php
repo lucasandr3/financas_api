@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
@@ -15,12 +16,11 @@ class Expense extends Model
         parent::boot();
 
         static::creating(function($model) {
-//            $model->user_id = auth()->user()->getAuthIdentifier();
-            $model->user_id = 1;
+            $model->user_id = auth()->user()->getAuthIdentifier();
         });
 
-        static::retrieved(function($model) {
-            $model->user_id = auth()->user()->getAuthIdentifier();
+        static::addGlobalScope('userID', function (Builder $builder) {
+            $builder->where('user_id', '=', auth()->user()->getAuthIdentifier());
         });
     }
 }

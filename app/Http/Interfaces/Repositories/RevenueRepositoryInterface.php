@@ -13,4 +13,6 @@ interface RevenueRepositoryInterface
     public function saveRevenue(object $revenue, string $fileName);
 
     public function saveInstallmentsRevenue($newRevenue);
+
+    public function delRevenue(int $revenue);
 }

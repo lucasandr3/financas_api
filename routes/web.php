@@ -49,6 +49,7 @@ $router->group([
     $router->post('/edit/{revenue}', 'RevenueController@editRevenue');
     $router->get('/installments/{revenue}', 'RevenueController@installments');
     $router->post('new', 'RevenueController@newRevenue');
+    $router->delete('delete/{revenue}', 'RevenueController@deleteRevenue');
 });
 
 // rota de despesas
@@ -60,6 +61,7 @@ $router->group([
     $router->get('/{expense}', 'ExpenseController@expenseById');
     $router->get('/installments/{expense}', 'ExpenseController@installments');
     $router->post('new', 'ExpenseController@newExpense');
+    $router->delete('delete/{expense}', 'ExpenseController@deleteExpense');
 });
 
 // rota de gastos relacionados

@@ -80,4 +80,10 @@ class RevenueRepository implements RevenueRepositoryInterface
             $newRevenueInstallments->save();
         }
     }
+
+    public function delRevenue(int $revenue)
+    {
+        Revenue::destroy($revenue);
+        return response()->json(['message' => 'Receita removida com sucesso!!'], 200);
+    }
 }

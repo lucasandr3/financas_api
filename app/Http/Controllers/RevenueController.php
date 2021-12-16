@@ -36,4 +36,9 @@ class RevenueController extends Controller
     {
         return $this->service->newRevenue($request);
     }
+
+    public function deleteRevenue(int $revenue)
+    {
+        return $this->service->deleteRevenue($revenue);
+    }
 }

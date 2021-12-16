@@ -145,4 +145,15 @@ class ExpenseService implements ExpenseServiceInterface
     {
         return $this->repository->getTotalExpensesByCategory($category);
     }
+
+    public function deleteExpense(int $expense)
+    {
+        $expenseObject = $this->repository->getExpenseById($expense);
+
+        if(!sizeof($expenseObject) > 0) {
+            return response()->json(['message' => 'Oopss, Despesa não existe!!'], 200);
+        }
+
+        return $this->repository->delExpense($expense);
+    }
 }
