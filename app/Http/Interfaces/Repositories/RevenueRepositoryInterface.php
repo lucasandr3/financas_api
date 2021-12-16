@@ -10,5 +10,7 @@ interface RevenueRepositoryInterface
 
     public function getInstallmentsByRevenue(int $revenue);
 
-    public function saveRevenue(array $revenue);
+    public function saveRevenue(object $revenue, string $fileName);
+
+    public function saveInstallmentsRevenue($newRevenue);
 }

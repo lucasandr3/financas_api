@@ -46,6 +46,7 @@ $router->group([
 ], function () use ($router) {
     $router->get('/', 'RevenueController@revenues');
     $router->get('/{revenue}', 'RevenueController@revenueById');
+    $router->post('/edit/{revenue}', 'RevenueController@editRevenue');
     $router->get('/installments/{revenue}', 'RevenueController@installments');
     $router->post('new', 'RevenueController@newRevenue');
 });

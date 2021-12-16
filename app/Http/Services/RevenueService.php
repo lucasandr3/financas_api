@@ -105,7 +105,6 @@ class RevenueService implements RevenueServiceInterface
     public function newRevenue(object $request)
     {
         $validator = Validator::make($request->all(), [
-            'company' => 'required',
             'id_category' => 'required|int',
             'title' => 'required|string',
             'value' => 'required',
@@ -116,26 +115,10 @@ class RevenueService implements RevenueServiceInterface
 
             if($request->file('photo')) {
                 $file = $request->file('photo')->store('public');
-                $nameFile = explode('public/', $file);
-            }
-
-            $newRevenue = [
-                'company' => $request['company'],
-                'id_category' => $request['id_category'],
-                'title' => $request['title'],
-                'description' => $request['description'],
-                'value' => $request['value'],
-                'installments' => $request['installments'],
-                'quantity_installments' => $request['quantity_installments'],
-                'photo' => isset($nameFile[1]) ?? ''
-            ];
-
-            $response = $this->repository->saveRevenue($newRevenue);
-
-            if($response) {
-                return ['code' => 200, 'message' => 'Receita salva com sucesso!'];
+                $fileName = explode('public/', $file);
+                return $this->repository->saveRevenue($request, $fileName);
             } else {
-                return ['code' => 500, 'message' => 'Erro ao salvar receita!!!'];
+                return $this->repository->saveRevenue($request, '');
             }
 
         } else {

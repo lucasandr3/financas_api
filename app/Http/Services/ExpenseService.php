@@ -25,6 +25,7 @@ class ExpenseService implements ExpenseServiceInterface
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
             $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
+            $expense->date_expense = Helpers::formatDateHour($expense->date_expense);
             return $expense;
         }, $expenses);
 
@@ -105,41 +106,20 @@ class ExpenseService implements ExpenseServiceInterface
     public function newExpense(object $request)
     {
         $validator = Validator::make($request->all(), [
-            'company' => 'required',
             'id_category' => 'required|int',
             'title' => 'required|string',
             'value' => 'required',
-            'photo' => 'required|file|mimes:jpg,png'
+            'photo' => 'file|mimes:jpg,png'
         ]);
 
         if(!$validator->fails()) {
 
             if($request->file('photo')) {
                 $file = $request->file('photo')->store('public');
-                $nameFile = explode('public/', $file);
-            }
-
-            $newExpense = [
-                'company' => $resquest['company'],
-                'id_category_expense' => $resquest['id_category'],
-                'title' => $resquest['title'],
-                'description' => $resquest['description'],
-                'value' => $resquest['value'],
-                'installments' => $resquest['installments'],
-                'quantity_installments' => $resquest['quantity_installments'],
-                'photo' => isset($nameFile[1]) ?? ''
-            ];
-
-            if($newExpense['installments'] == 1) {
-                $response = $this->repository->saveExpenseWithInstallment($newExpense);
+                $fileName = explode('public/', $file);
+                return $this->repository->saveExpense($request, $fileName);
             } else {
-                $response = $this->repository->saveExpense($newExpense);
-            }
-
-            if($response) {
-                return ['code' => 200, 'message' => 'Despesa salva com sucesso!'];
-            } else {
-                return ['code' => 500, 'message' => 'Erro ao salvar despesa!!!'];
+                return $this->repository->saveExpense($request, '');
             }
 
         } else {

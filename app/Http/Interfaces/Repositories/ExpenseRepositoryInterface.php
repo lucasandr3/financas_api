@@ -14,9 +14,7 @@ interface ExpenseRepositoryInterface
 
     public function getInstallmentsByExpense(int $expense);
 
-    public function saveExpense(array $expense);
+    public function saveExpense(object $request, string $fileName);
 
-    public function saveExpenseWithInstallment(array $expense);
-
-    public function saveInstallmentsExpense(int $expenseId, array $expense);
+    public function saveInstallmentsExpense($newExpense);
 }

@@ -13,7 +13,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function getAllExpenses()
     {
         return DB::table('expenses as e')
-            ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo')
+            ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo', 'e.date_expense')
             ->addSelect('fc.name as category')
             ->join('financial_categories as fc', 'fc.id', '=', 'e.id_category_expense')
             ->get()
@@ -39,31 +39,46 @@ class ExpenseRepository implements ExpenseRepositoryInterface
         ->get()->toArray();
     }
 
-    public function saveExpense(array $expense)
+    public function saveExpense(object $request, string $fileName)
     {
-        return Expense::insert($expense);
+        try {
+
+            $newExpense = new Expense;
+            $newExpense->id_category_expense = $request->input('id_category');
+            $newExpense->card = $request->input('card');
+            $newExpense->title = $request->input('title');
+            $newExpense->description = $request->input('description');
+            $newExpense->value = $request->input('value');
+            $newExpense->installments = $request->input('installments');
+            $newExpense->quantity_installments = $request->input('quantity_installments');
+            $newExpense->photo = isset($fileName) ?? null;
+
+            $newExpense->save();
+
+            if($request->input('installments') > 0) {
+                $this->saveInstallmentsExpense($newExpense);
+            }
+
+            return response()->json(['expense' => $newExpense, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            ExpenseInstallments::where('id', $newExpense->id)->delete();
+            return response()->json(['message' => 'Erro ao cadastrar despesa!'], 409);
+        }
     }
 
-    public function saveExpenseWithInstallment(array $expense)
+    public function saveInstallmentsExpense($newExpense)
     {
-        Expense::insert($expense);
-        $expenseID = DB::getPdo()->lastInsertId();
-        return $this->saveInstallmentsExpense($expenseID, $expense);
-    }
+        $valueInstallment = ($newExpense->value / $newExpense->quantity_installments);
 
-    public function saveInstallmentsExpense(int $expenseId, array $expense)
-    {
-        $installments = [];
-        $parcela = 0;
-        $dataAtual = date('Y-m-d');
-
-        for ($i = 0; $i < $expense['quantity_installments']; $i++) {
-            $parcela++;
-            $installments[]['expense'] = $expenseId;
-            $installments[]['installment'] = $parcela;
-            $installments[]['value_installment'] = ($expense['value'] / $expense['quantity_installments']);
-            $installments[]['pay'] = date('Y-m-d', strtotime('+ 1 month', strtotime($dataAtual)));
-            ExpenseInstallments::insert($installments);
+        for ($i = 0; $i < $newExpense->quantity_installments; $i++) {
+            $im = $i + 1;
+            $newExpenseInstallments = new ExpenseInstallments;
+            $newExpenseInstallments->expense = $newExpense->id;
+            $newExpenseInstallments->installment = $i + 1;
+            $newExpenseInstallments->value_installment = $valueInstallment;
+            $newExpenseInstallments->pay = date('Y-m-d', strtotime($newExpense->pay . "+$im month"));
+            $newExpenseInstallments->save();
         }
     }
 

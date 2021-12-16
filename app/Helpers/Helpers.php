@@ -14,6 +14,14 @@ class Helpers
         return $date = date('d/m/Y', strtotime($date));
     }
 
+    public static function formatDateHour(string $date): string
+    {
+        $d = date('d/m/Y', strtotime($date));
+        $h = date('H:i', strtotime($date));
+
+        return $d ." às ".$h;
+    }
+
     public static function formatInterest(float $value, int $precision = 1): string
     {
         return number_format($value, $precision, '.','.') . "%";

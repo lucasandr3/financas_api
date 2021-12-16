@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\Repositories\RevenueRepositoryInterface;
 use App\Models\Revenue;
+use App\Models\RevenueInstallments;
 use Illuminate\Support\Facades\DB;
 
 class RevenueRepository implements RevenueRepositoryInterface
@@ -38,8 +39,45 @@ class RevenueRepository implements RevenueRepositoryInterface
         ->get()->toArray();
     }
 
-    public function saveRevenue(array $revenue)
+    public function saveRevenue(object $request, string $fileName)
     {
-        return Revenue::insert($revenue);
+        try {
+
+            $newRevenue = new Revenue;
+            $newRevenue->id_category = $request->input('id_category');
+            $newRevenue->title = $request->input('title');
+            $newRevenue->description = $request->input('description');
+            $newRevenue->value = $request->input('value');
+            $newRevenue->installments = $request->input('installments');
+            $newRevenue->quantity_installments = $request->input('quantity_installments');
+            $newRevenue->photo = isset($fileName) ?? null;
+
+            $newRevenue->save();
+
+            if($request->input('installments') > 0) {
+                $this->saveInstallmentsRevenue($newRevenue);
+            }
+
+            return response()->json(['user' => $newRevenue, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            Revenue::where('id', $newRevenue->id)->delete();
+            return response()->json(['message' => 'Erro ao cadastrar receita!'], 409);
+        }
+    }
+
+    public function saveInstallmentsRevenue($newRevenue)
+    {
+        $valueInstallment = ($newRevenue->value / $newRevenue->quantity_installments);
+
+        for ($i = 0; $i < $newRevenue->quantity_installments; $i++) {
+            $im = $i + 1;
+            $newRevenueInstallments = new RevenueInstallments;
+            $newRevenueInstallments->revenue = $newRevenue->id;
+            $newRevenueInstallments->installment = $i + 1;
+            $newRevenueInstallments->value_installment = $valueInstallment;
+            $newRevenueInstallments->pay = date('Y-m-d', strtotime($newRevenue->pay . "+$im month"));
+            $newRevenueInstallments->save();
+        }
     }
 }
