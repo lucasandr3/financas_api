@@ -13,4 +13,7 @@ class Constants
     const PARCELADO_STRING = 'Parcelado';
     const SEM_PARCELA_STRING = 'Pagamento único';
 
+    // dados iniciais clientes
+    const SEM_RESTRICAO = 1;
+    const SCORE = 3;
 }

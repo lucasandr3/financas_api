@@ -26,4 +26,37 @@ class Helpers
     {
         return number_format($value, $precision, '.','.') . "%";
     }
+
+    public static function formatDocument(string $value): string
+    {
+        $cnpj_cpf = preg_replace("/\D/", '', $value);
+        $result = $value;
+
+        if (strlen($cnpj_cpf) === 11) {
+            $result = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cnpj_cpf);
+        } elseif (strlen($cnpj_cpf) === 14) {
+            $result = preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
+        }
+
+        return $result;
+    }
+
+    public static function formatPhone(string $telefone): string
+    {
+        $size = strlen($telefone);
+        $string = preg_replace("[^0-9]", "", $telefone);
+
+        if ($size === 10) {
+            $string = '(' . substr($string, 0, 2) . ') ' . substr($string, 2, 4) . '-' . substr($string, 6);
+        } else if ($size === 11) {
+            $string = '(' . substr($string, 0, 2) . ') ' . substr($string, 2, 5) . '-' . substr($string, 7);
+        }
+        return $string;
+    }
+
+    public static function formatZipcode(string $cep): string
+    {
+        $string = preg_replace("[^0-9]", "", $cep);
+        return substr($string, 0, 5) . '-' . substr($string, 5, 3);
+    }
 }

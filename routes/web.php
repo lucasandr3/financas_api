@@ -131,3 +131,16 @@ $router->group([
     $router->post('new', 'SuggestionController@newSuggestion');
 });
 
+// rota de Clientes
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/customers'
+], function () use ($router) {
+    $router->get('/', 'CustomersController@myCustomers');
+    $router->post('/edit/{customer}', 'CustomersController@editCustomer');
+    $router->get('/{customer}', 'CustomersController@customerById');
+    $router->get('/{customer}/expenses', 'CustomersController@customerExpenses');
+    $router->post('new', 'CustomersController@newCustomer');
+    $router->delete('delete/{customer}', 'CustomersController@deleteCustomer');
+});
+
