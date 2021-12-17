@@ -153,3 +153,8 @@ $router->group([
     $router->get('/totals_categories', 'CategoriesController@totals');
 });
 
+// rota de notfound
+$router->get('/404', function () use ($router) {
+    return response()->json(['message' => 'NotFound'], 404);
+});
+
