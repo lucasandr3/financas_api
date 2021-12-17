@@ -91,18 +91,11 @@ class CustomersRepository implements CustomersRepositoryInterface
         }
     }
 
-    public function getTotalExpensesByCard(int $card)
+    public function getTotalExpensesByCustomer(int $customer)
     {
-        return DB::table('card_expenses')
-            ->where('card', $card)
+        return DB::table('expenses')
+            ->where('customer', $customer)
             ->sum('value');
-    }
-
-    public function getLimitByCard(int $card)
-    {
-        return DB::table('cards')
-            ->select('limit_card')
-            ->where('id', $card)->get()->toArray()[0];
     }
 
     public function getExpensesByCustomer(int $customer)
@@ -122,43 +115,6 @@ class CustomersRepository implements CustomersRepositoryInterface
             ->addSelect('e.value as total_expense', 'e.quantity_installments', 'e.title', 'e.description')
             ->join('expenses as e', 'e.id', '=', 'ei.expense')
             ->where('ei.expense', $expense)
-            ->get()->toArray();
-    }
-
-    public function saveExpenseWithInstallment(array $expense)
-    {
-        SpendingExpenses::insert($expense);
-        $expenseID = DB::getPdo()->lastInsertId();
-        return $this->saveInstallmentsExpense($expenseID, $expense);
-    }
-
-    public function saveInstallmentsExpense(int $expenseId, array $expense)
-    {
-        $installments = [];
-        $parcela = 0;
-        $dataAtual = date('Y-m-d');
-
-        for ($i = 0; $i < $expense['quantity_installments']; $i++) {
-            $parcela++;
-            $installments[]['spending_limit'] = 2;
-            $installments[]['spending_expense'] = $expenseId;
-            $installments[]['installment'] = $parcela;
-            $installments[]['value_installment'] = ($expense['value'] / $expense['quantity_installments']);
-            $installments[]['pay'] = date('Y-m-d', strtotime('+ 1 month', strtotime($dataAtual)));
-            SpendingInstallments::insert($installments);
-        }
-    }
-
-    public function saveExpense(array $expense)
-    {
-        return SpendingExpenses::insert($expense);
-    }
-
-    public function getInstallmentsByCard(int $card)
-    {
-        return DB::table('card_installments as ci')
-            ->select('ci.id', 'ci.installment', 'ci.value_installment', 'ci.pay')
-            ->where('ci.card_expense', $card)
             ->get()->toArray();
     }
 

@@ -28,6 +28,10 @@ class CustomersService implements CustomersServiceInterface
             $customer->document = Helpers::formatDocument($customer->document);
             $customer->phone = Helpers::formatPhone($customer->phone);
             $customer->zipcode = ($customer->zipcode) ? Helpers::formatZipcode($customer->zipcode) : null;
+
+            $totalExpenses = $this->repository->getTotalExpensesByCustomer($customer->id);
+            $customer->total_expenses = ($totalExpenses) ? Helpers::formatMoney($totalExpenses) : 'R$ 0,00';
+
             return $customer;
         }, $customers);
 
@@ -46,6 +50,10 @@ class CustomersService implements CustomersServiceInterface
             $customerOBJ->document = Helpers::formatDocument($customerOBJ->document);
             $customerOBJ->phone = Helpers::formatPhone($customerOBJ->phone);
             $customerOBJ->zipcode = ($customerOBJ->zipcode) ? Helpers::formatZipcode($customerOBJ->zipcode) : null;
+
+            $totalExpenses = $this->repository->getTotalExpensesByCustomer($customerOBJ->id);
+            $customerOBJ->total_expenses = ($totalExpenses) ? Helpers::formatMoney($totalExpenses) : 'R$ 0,00';
+
             return $customerOBJ;
         }, $customerObject);
 

@@ -12,19 +12,11 @@ interface CustomersRepositoryInterface
 
     public function updateCustomer(object $request, int $customer);
 
-    public function getInstallmentsByCard(int $card);
-
-    public function getTotalExpensesByCard(int $card);
-
-    public function getLimitByCard(int $card);
+    public function getTotalExpensesByCustomer(int $customer);
 
     public function getExpensesByCustomer(int $customer);
 
     public function getInstallmentsByCustomerExpense(int $expense);
-
-    public function saveExpenseWithInstallment(array $expense);
-
-    public function saveExpense(array $expense);
 
     public function delCustomer(int $expense);
 }
