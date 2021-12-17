@@ -53,6 +53,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Http\Interfaces\Services\SuggestionServiceInterface::class, \App\Http\Services\SuggestionService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\SuggestionRepositoryInterface::class, \App\Http\Repositories\SuggestionRepository::class);
 
+        // Binds Categories financeiras
+        $this->app->bind(\App\Http\Interfaces\Services\CategoriesServiceInterface::class, \App\Http\Services\CategoriesService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\CategoriesRepositoryInterface::class, \App\Http\Repositories\CategoriesRepository::class);
+
         // Binds Clientes
         $this->app->bind(\App\Http\Interfaces\Services\CustomersServiceInterface::class, \App\Http\Services\CustomersService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\CustomersRepositoryInterface::class, \App\Http\Repositories\CustomersRepository::class);

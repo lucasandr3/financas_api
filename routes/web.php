@@ -145,3 +145,11 @@ $router->group([
     $router->delete('delete/{customer}', 'CustomersController@deleteCustomer');
 });
 
+// rota de categorias financeira
+$router->group([
+    'middleware' => 'auth',
+    'prefix' => 'api/categories'
+], function () use ($router) {
+    $router->get('/totals_categories', 'CategoriesController@totals');
+});
+
