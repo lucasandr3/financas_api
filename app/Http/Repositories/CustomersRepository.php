@@ -14,7 +14,7 @@ class CustomersRepository implements CustomersRepositoryInterface
     {
         return DB::table('customers as c')
             ->addSelect('c.id','c.full_name', 'c.name_alias', 'c.document', 'c.phone', 'c.email', 'c.zipcode')
-            ->addSelect('c.street', 'c.number', 'c.neighborhood', 'c.city', 'c.state', 'c.tag', 'c.score')
+            ->addSelect('c.street', 'c.number', 'c.neighborhood', 'c.city', 'c.state', 'c.tag', 'c.score', 'c.type')
             ->addSelect('u.full_name as user')
             ->addSelect('ct.tag')
             ->join('users as u', 'c.user_id', '=', 'u.id')
@@ -27,7 +27,7 @@ class CustomersRepository implements CustomersRepositoryInterface
     {
         return DB::table('customers as c')
             ->addSelect('c.id','c.full_name', 'c.name_alias', 'c.document', 'c.phone', 'c.email', 'c.zipcode')
-            ->addSelect('c.street', 'c.number', 'c.neighborhood', 'c.city', 'c.state', 'c.tag', 'c.score')
+            ->addSelect('c.street', 'c.number', 'c.neighborhood', 'c.city', 'c.state', 'c.tag', 'c.score', 'c.type')
             ->addSelect('u.full_name as user')
             ->addSelect('ct.tag')
             ->join('users as u', 'c.user_id', '=', 'u.id')
@@ -55,6 +55,7 @@ class CustomersRepository implements CustomersRepositoryInterface
             $newCustomer->state = $request->input('state');
             $newCustomer->tag = Constants::SEM_RESTRICAO;
             $newCustomer->score = Constants::SCORE;
+            $newCustomer->type = $request->input('type');
 
             $newCustomer->save();
             return response()->json(['customer' => $newCustomer, 'message' => 'CREATED'], 200);
@@ -82,6 +83,7 @@ class CustomersRepository implements CustomersRepositoryInterface
             $editCustomer->state = ($request->input('state')) ? $request->input('state') : $editCustomer->state;
             $editCustomer->tag = ($request->input('tag')) ? $request->input('tag') : $editCustomer->tag;
             $editCustomer->score = ($request->input('score')) ? $request->input('score') : $editCustomer->score;
+            $editCustomer->type = ($request->input('type')) ? $request->input('type') : $editCustomer->type;
 
             $editCustomer->save();
             return response()->json(['user' => $editCustomer, 'message' => 'UPDATED'], 200);
@@ -108,6 +110,16 @@ class CustomersRepository implements CustomersRepositoryInterface
             ->toArray();
     }
 
+    public function getRevenuesByCustomer(int $customer)
+    {
+        return DB::table('revenues as r')
+            ->addSelect('r.id', 'r.user_id', 'r.title', 'r.description', 'r.value', 'r.installments', 'r.quantity_installments', 'r.photo', 'r.date_revenue')
+            ->join('customers as c', 'c.id', '=', 'r.customer')
+            ->where('r.customer', $customer)
+            ->get()
+            ->toArray();
+    }
+
     public function getInstallmentsByCustomerExpense(int $expense)
     {
         return DB::table('expense_installments as ei')
@@ -115,6 +127,16 @@ class CustomersRepository implements CustomersRepositoryInterface
             ->addSelect('e.value as total_expense', 'e.quantity_installments', 'e.title', 'e.description')
             ->join('expenses as e', 'e.id', '=', 'ei.expense')
             ->where('ei.expense', $expense)
+            ->get()->toArray();
+    }
+
+    public function getInstallmentsByCustomerRevenue(int $revenue)
+    {
+        return DB::table('revenue_installments as ri')
+            ->select('ri.id', 'ri.installment', 'ri.value_installment', 'ri.pay')
+            ->addSelect('r.value as total_expense', 'r.quantity_installments', 'r.title', 'r.description')
+            ->join('revenues as r', 'r.id', '=', 'ri.revenue')
+            ->where('ri.revenue', $revenue)
             ->get()->toArray();
     }
 

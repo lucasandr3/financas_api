@@ -16,7 +16,11 @@ interface CustomersRepositoryInterface
 
     public function getExpensesByCustomer(int $customer);
 
+    public function getRevenuesByCustomer(int $customer);
+
     public function getInstallmentsByCustomerExpense(int $expense);
+
+    public function getInstallmentsByCustomerRevenue(int $revenue);
 
     public function delCustomer(int $expense);
 }

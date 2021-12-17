@@ -8,7 +8,9 @@ interface CustomersServiceInterface
 
     public function getCustomer(int $card);
 
-    public function getExpenses(int $card);
+    public function getExpenses(int $customer);
+
+    public function getRevenues(int $customer);
 
     public function newCustomer(object $resquest);
 

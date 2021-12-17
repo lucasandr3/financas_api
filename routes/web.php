@@ -140,6 +140,7 @@ $router->group([
     $router->post('/edit/{customer}', 'CustomersController@editCustomer');
     $router->get('/{customer}', 'CustomersController@customerById');
     $router->get('/{customer}/expenses', 'CustomersController@customerExpenses');
+    $router->get('/{customer}/revenues', 'CustomersController@customerRevenues');
     $router->post('new', 'CustomersController@newCustomer');
     $router->delete('delete/{customer}', 'CustomersController@deleteCustomer');
 });

@@ -73,12 +73,26 @@ class CustomersService implements CustomersServiceInterface
         return response()->json($expenses, 201);
     }
 
+    public function getRevenues(int $customer)
+    {
+        $customerObject = $this->repository->getCustomerById($customer);
+
+        if (sizeof($customerObject) === 0) {
+            return response()->json(['message' => 'Cliente não está cadastrado.'], 200);
+        }
+
+        $revenues = $this->getRevenuesByCustomer($customerObject[0]->id);
+
+        return response()->json($revenues, 200);
+    }
+
     public function newCustomer(object $resquest)
     {
         $validator = Validator::make($resquest->all(), [
             'full_name' => 'required|string',
             'document' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'type' => 'required'
         ]);
 
         if (!$validator->fails()) {
@@ -101,7 +115,8 @@ class CustomersService implements CustomersServiceInterface
         $validator = Validator::make($resquest->all(), [
             'full_name' => 'required|string',
             'document' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'type' => 'required'
         ]);
 
         if (!$validator->fails()) {
@@ -140,9 +155,49 @@ class CustomersService implements CustomersServiceInterface
         return $expenses;
     }
 
+    private function getRevenuesByCustomer(int $customer)
+    {
+        $revenues = $this->repository->getRevenuesByCustomer($customer);
+
+        $revenues = array_map(function ($revenue) {
+            $revenue->value = Helpers::formatMoney($revenue->value);
+            $revenue->installments = ($revenue->installments === 0) ? 'Pagamento único' : 'Parcelado';
+
+            $installmentsCustomerRevenue = $this->getInstallmentsByCustomerRevenue($revenue->id);
+
+            if ($revenue->installments != Constants::SEM_PARCELA_STRING) {
+                $revenue->installments_object = $installmentsCustomerRevenue;
+            }
+
+            $revenue->photo = ($revenue->photo) ? url('storage/' . $revenue->photo) : null;
+            return $revenue;
+        }, $revenues);
+
+        return $revenues;
+    }
+
     private function getInstallmentsByCustomerExpense(int $expense)
     {
         $installments = $this->repository->getInstallmentsByCustomerExpense($expense);
+
+        if (!sizeof($installments) > 0) {
+            return [];
+        }
+
+        $installments = array_map(function ($installment) {
+            $installment->installment = $installment->installment . 'ª' . ' Parcela';
+            $installment->value_installment = Helpers::formatMoney($installment->value_installment);
+            $installment->pay = Helpers::formatDateSimple($installment->pay);
+            $installment->total_expense = Helpers::formatMoney($installment->total_expense);
+            return $installment;
+        }, $installments);
+
+        return $installments;
+    }
+
+    private function getInstallmentsByCustomerRevenue(int $revenue)
+    {
+        $installments = $this->repository->getInstallmentsByCustomerRevenue($revenue);
 
         if (!sizeof($installments) > 0) {
             return [];

@@ -32,6 +32,11 @@ class CustomersController extends Controller
         return $this->service->getExpenses($customer);
     }
 
+    public function customerRevenues(int $customer)
+    {
+        return $this->service->getRevenues($customer);
+    }
+
     public function newCustomer(Request $request)
     {
         return $this->service->newCustomer($request);
