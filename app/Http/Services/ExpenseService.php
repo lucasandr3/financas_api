@@ -23,13 +23,17 @@ class ExpenseService implements ExpenseServiceInterface
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
-            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
             $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
+            $expense->date = Helpers::formatDateSimple($expense->date_expense);
+            $expense->hour = Helpers::Hour($expense->date_expense);
             $expense->date_expense = Helpers::formatDateHour($expense->date_expense);
+            $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsAll($expense->id) : null;
             return $expense;
         }, $expenses);
 
-        return $expenses;
+        $expensesByMounth = Helpers::groupByMonth($expenses);
+
+        return response()->json(['expenses' => $expensesByMounth], 200);
     }
 
     public function getExpense(int $expense)
@@ -45,6 +49,9 @@ class ExpenseService implements ExpenseServiceInterface
 
             $expenseObject = array_map(function($expenseObj) {
                 $expenseObj->value = Helpers::formatMoney($expenseObj->value);
+                $expenseObj->date = Helpers::formatDateSimple($expenseObj->date_expense);
+                $expenseObj->hour = Helpers::Hour($expenseObj->date_expense);
+                $expenseObj->date_expense = Helpers::formatDateHour($expenseObj->date_expense);
                 $expenseObj->installments = ($expenseObj->installments === 0) ? 'Pagamento único' : 'Parcelado';
                 return $expenseObj;
             }, $expenseObject);
@@ -56,13 +63,16 @@ class ExpenseService implements ExpenseServiceInterface
             $expenseObject = array_map(function($expenseObj) use ($installments) {
                 $expenseObj->value = Helpers::formatMoney($expenseObj->value);
                 $expenseObj->installments = ($expenseObj->installments === 0) ? 'Pagamento único' : 'Parcelado';
+                $expenseObj->date = Helpers::formatDateSimple($expenseObj->date_expense);
+                $expenseObj->hour = Helpers::Hour($expenseObj->date_expense);
+                $expenseObj->date_expense = Helpers::formatDateHour($expenseObj->date_expense);
                 $expenseObj->installments_object = $installments['installments'];
                 return $expenseObj;
             }, $expenseObject);
 
         }
 
-        return ['code' => 200, 'expense' => $expenseObject];
+        return response(['expense' => $expenseObject], 200);
     }
 
     public function getInstallments(int $expense)

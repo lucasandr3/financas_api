@@ -32,7 +32,7 @@ $router->post('api/auth/login', 'AuthController@login');
 
 // rota de login
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/auth'
 ], function () use ($router) {
     $router->post('/validate_token', 'AuthController@validateToken');
@@ -41,7 +41,7 @@ $router->group([
 
 // rota de receitas
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/revenues'
 ], function () use ($router) {
     $router->get('/', 'RevenueController@revenues');
@@ -55,7 +55,7 @@ $router->group([
 
 // rota de despesas
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/expenses'
 ], function () use ($router) {
     $router->get('/', 'ExpenseController@expenses');
@@ -68,7 +68,7 @@ $router->group([
 
 // rota de gastos relacionados
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/spendings'
 ], function () use ($router) {
     $router->get('/', 'SpendingController@spendings');
@@ -80,7 +80,7 @@ $router->group([
 
 // rota de meta de gastos
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/spending_targets'
 ], function () use ($router) {
     $router->get('/', 'SpendingTargetController@spendingsTargets');
@@ -90,7 +90,7 @@ $router->group([
 
 // rota de Cartões
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/cards'
 ], function () use ($router) {
     $router->get('/', 'CardsController@myCards');
@@ -102,7 +102,7 @@ $router->group([
 
 // rota de Empréstimos
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/lendings'
 ], function () use ($router) {
     $router->get('/', 'LendingsController@myLendings');
@@ -113,7 +113,7 @@ $router->group([
 
 // rota de Categorias de Sugestoes
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/category_suggestions'
 ], function () use ($router) {
     $router->get('/', 'CategoriesSuggestionController@categories');
@@ -123,7 +123,7 @@ $router->group([
 
 // rota de Sugestoes
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/suggestions'
 ], function () use ($router) {
     $router->get('/user', 'SuggestionController@mySuggestions');
@@ -147,7 +147,7 @@ $router->group([
 
 // rota de categorias financeira
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/categories'
 ], function () use ($router) {
     $router->get('/totals_categories', 'CategoriesController@totals');
@@ -155,6 +155,6 @@ $router->group([
 
 // rota de notfound
 $router->get('/404', function () use ($router) {
-    return response()->json(['message' => 'NotFound'], 404);
+    return response()->json(['message' => 'Endpoint não existe'], 404);
 });
 

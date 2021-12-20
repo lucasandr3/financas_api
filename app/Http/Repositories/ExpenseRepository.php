@@ -14,6 +14,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     {
         return DB::table('expenses as e')
             ->addSelect('e.id','e.title', 'e.description', 'e.value', 'e.installments', 'e.quantity_installments', 'e.photo', 'e.date_expense')
+            ->addSelect((DB::raw('MONTH(e.date_expense) month')))
             ->addSelect('fc.name as category')
             ->join('financial_categories as fc', 'fc.id', '=', 'e.id_category_expense')
             ->get()

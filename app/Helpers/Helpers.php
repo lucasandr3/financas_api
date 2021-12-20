@@ -22,6 +22,11 @@ class Helpers
         return $d ." às ".$h;
     }
 
+    public static function Hour(string $date): string
+    {
+        return date('H:i', strtotime($date));
+    }
+
     public static function formatInterest(float $value, int $precision = 1): string
     {
         return number_format($value, $precision, '.','.') . "%";
@@ -58,5 +63,35 @@ class Helpers
     {
         $string = preg_replace("[^0-9]", "", $cep);
         return substr($string, 0, 5) . '-' . substr($string, 5, 3);
+    }
+
+    public static function groupByMonth($data)
+    {
+        $months = [
+            '1' => 'Janeiro',
+            '2' => 'Fevereiro',
+            '3' => 'Março',
+            '4' => 'Abril',
+            '5' => 'Maio',
+            '6' => 'Junho',
+            '7' => 'Julho',
+            '8' => 'Agosto',
+            '9' => 'Setembro',
+            '10' => 'Outubro',
+            '11' => 'Novembro',
+            '12' => 'Dezembro'
+        ];
+
+        usort($data, function($a, $b) {
+            return $a->month >= $b->month;
+        });
+
+        $dataMonths = [];
+
+        foreach ($data as $d) {
+            $dataMonths[$months[$d->month]][] = $d;
+        }
+
+        return $dataMonths;
     }
 }

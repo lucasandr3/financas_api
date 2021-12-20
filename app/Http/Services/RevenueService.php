@@ -28,7 +28,9 @@ class RevenueService implements RevenueServiceInterface
             return $revenue;
         }, $revenues);
 
-        return $revenues;
+        $revenuesByMounth = Helpers::groupByMonth($revenues);
+
+        return response()->json(['revenues' => $revenuesByMounth], 200);
     }
 
     public function getRevenue(int $revenue)
