@@ -68,7 +68,7 @@ class CustomersRepository implements CustomersRepositoryInterface
     public function updateCustomer(object $request, int $customer)
     {
         try {
-
+            DB::beginTransaction();
             $editCustomer = Customer::find($customer);
             $editCustomer->full_name = ($request->input('full_name')) ? $request->input('full_name') : $editCustomer->full_name;
             $editCustomer->name_alias = ($request->input('name_alias')) ? $request->input('name_alias') : $editCustomer->name_alias;
@@ -86,9 +86,11 @@ class CustomersRepository implements CustomersRepositoryInterface
             $editCustomer->type = ($request->input('type')) ? $request->input('type') : $editCustomer->type;
 
             $editCustomer->save();
+            DB::commit();
             return response()->json(['user' => $editCustomer, 'message' => 'UPDATED'], 200);
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 200);
         }
     }

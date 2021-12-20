@@ -43,7 +43,7 @@ class RevenueRepository implements RevenueRepositoryInterface
     public function saveRevenue(object $request, string $fileName)
     {
         try {
-
+            DB::beginTransaction();
             $newRevenue = new Revenue;
             $newRevenue->id_category = $request->input('id_category');
             $newRevenue->title = $request->input('title');
@@ -58,11 +58,11 @@ class RevenueRepository implements RevenueRepositoryInterface
             if($request->input('installments') > 0) {
                 $this->saveInstallmentsRevenue($newRevenue);
             }
-
+            DB::commit();
             return response()->json(['user' => $newRevenue, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
-            Revenue::where('id', $newRevenue->id)->delete();
+            DB::rollBack();
             return response()->json(['message' => 'Erro ao cadastrar receita!'], 409);
         }
     }
@@ -70,6 +70,7 @@ class RevenueRepository implements RevenueRepositoryInterface
     public function editRevenue(int $revenue, object $request, string $fileName)
     {
         try {
+            DB::beginTransaction();
             $revenueEdit = Revenue::find($revenue);
             $revenueEdit->id_category = $request->input('id_category');
             $revenueEdit->card = $request->input('card');
@@ -86,11 +87,12 @@ class RevenueRepository implements RevenueRepositoryInterface
                 $this->delInstallmentsEdit($revenueEdit->id);
                 $this->saveInstallmentsRevenue($revenueEdit);
             }
-
+            DB::commit();
             return response()->json(['expense' => $revenueEdit, 'message' => 'UPDATED'], 200);
 
         } catch (\Exception $e) {
-            RevenueInstallments::where('id', $revenueEdit->id)->delete();
+//            RevenueInstallments::where('id', $revenueEdit->id)->delete();
+            DB::rollBack();
             return response()->json(['message' => 'Erro ao atualizar receita!'], 200);
         }
     }

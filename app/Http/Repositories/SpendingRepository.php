@@ -16,7 +16,7 @@ class SpendingRepository implements SpendingRepositoryInterface
         return DB::table('spending as s')
             ->addSelect('s.id', 's.title', 's.limit_value', 's.percent_alert', 's.final_date_spending')
             ->get()
-        ->toArray();
+            ->toArray();
     }
 
     public function getSpendingById(int $spending)
@@ -42,7 +42,7 @@ class SpendingRepository implements SpendingRepositoryInterface
     public function getExpensesBySpending(int $spending)
     {
         return DB::table('spending_expenses as se')
-            ->addSelect('se.id','se.title', 'se.description', 'se.value', 'se.installments', 'se.quantity_installments', 'se.photo', 'se.date_spending_expense')
+            ->addSelect('se.id', 'se.title', 'se.description', 'se.value', 'se.installments', 'se.quantity_installments', 'se.photo', 'se.date_spending_expense')
             ->addSelect('fc.name as category', 'fc.id as id_category')
             ->join('financial_categories as fc', 'fc.id', '=', 'se.category')
             ->where('spending', $spending)
@@ -62,9 +62,17 @@ class SpendingRepository implements SpendingRepositoryInterface
 
     public function saveExpenseWithInstallment(array $expense)
     {
-        SpendingExpenses::insert($expense);
-        $expenseID = DB::getPdo()->lastInsertId();
-        return $this->saveInstallmentsExpense($expenseID, $expense);
+        try {
+            DB::beginTransaction();
+            SpendingExpenses::insert($expense);
+            $expenseID = DB::getPdo()->lastInsertId();
+            $this->saveInstallmentsExpense($expenseID, $expense);
+            DB::commit();
+            return response()->json(['message' => 'despesa salva com sucesso.'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 200);
+        }
     }
 
     public function saveInstallmentsExpense(int $expenseId, array $expense)

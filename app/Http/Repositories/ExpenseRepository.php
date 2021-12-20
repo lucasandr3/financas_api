@@ -43,7 +43,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function saveExpense(object $request, string $fileName)
     {
         try {
-
+            DB::beginTransaction();
             $newExpense = new Expense;
             $newExpense->id_category_expense = $request->input('id_category');
             $newExpense->card = $request->input('card');
@@ -59,11 +59,12 @@ class ExpenseRepository implements ExpenseRepositoryInterface
             if($request->input('installments') > 0) {
                 $this->saveInstallmentsExpense($newExpense);
             }
-
+            DB::commit();
             return response()->json(['expense' => $newExpense, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
-            ExpenseInstallments::where('id', $newExpense->id)->delete();
+//            ExpenseInstallments::where('id', $newExpense->id)->delete();
+            DB::rollBack();
             return response()->json(['message' => 'Erro ao cadastrar despesa!'], 409);
         }
     }
@@ -71,6 +72,7 @@ class ExpenseRepository implements ExpenseRepositoryInterface
     public function editExpense(int $expense, object $request, string $fileName)
     {
         try {
+            DB::beginTransaction();
             $expenseEdit = Expense::find($expense);
             $expenseEdit->id_category_expense = $request->input('id_category');
             $expenseEdit->card = $request->input('card');
@@ -87,11 +89,12 @@ class ExpenseRepository implements ExpenseRepositoryInterface
                 $this->delInstallmentsEdit($expenseEdit->id);
                 $this->saveInstallmentsExpense($expenseEdit);
             }
-
+            DB::commit();
             return response()->json(['expense' => $expenseEdit, 'message' => 'UPDATED'], 200);
 
         } catch (\Exception $e) {
-            ExpenseInstallments::where('id', $expenseEdit->id)->delete();
+//            ExpenseInstallments::where('id', $expenseEdit->id)->delete();
+            DB::rollBack();
             return response()->json(['message' => 'Erro ao atualizar despesa!'], 200);
         }
     }
