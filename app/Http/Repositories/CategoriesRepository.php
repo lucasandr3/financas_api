@@ -27,28 +27,30 @@ class CategoriesRepository implements CategoriesRepositoryInterface
             ->get()->toArray();
     }
 
+    public function getSpendings()
+    {
+        return DB::table('spending as s')
+            ->addSelect('s.id','s.title as object', 's.limit_value')
+            ->get()->toArray();
+    }
+
     public function getTotalsSpendingsCategories()
     {
         return DB::table('spending_expenses as se')
-            ->addSelect('s.title')
-            ->addSelect('se.title as object')
             ->addSelect('c.name as category')
             ->addSelect((DB::raw('sum(se.value) total')))
             ->join('spending as s', 's.id', '=', 'se.spending')
             ->join('financial_categories as c', 'c.id', '=', 'se.category')
-            ->groupBy('se.id')
+            ->groupBy('c.id')
             ->get()->toArray();
     }
 
     public function getTotalsCardsCategories()
     {
         return DB::table('card_expenses as cc')
-            ->addSelect('c.name as card')
+            ->addSelect('c.name as category')
             ->addSelect((DB::raw('sum(cc.value) total')))
-            ->addSelect('cards.institution')
             ->join('financial_categories as c', 'c.id', '=', 'cc.category')
-            ->join('cards', 'cards.id', '=', 'cc.card')
-            ->groupBy('cards.id')
             ->groupBy('c.id')
             ->get()->toArray();
     }

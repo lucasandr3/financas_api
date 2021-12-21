@@ -22,12 +22,12 @@ class CategoriesService implements CategoriesServiceInterface
     {
         $expensesTotals = $this->repository->getTotalsExpensesCategories();
         $revenuesTotals = $this->repository->getTotalsRevenuesCategories();
-        $spendigsTotals = $this->repository->getTotalsSpendingsCategories();
+        $spendigsCategories = $this->repository->getTotalsSpendingsCategories();
         $cardsTotals = $this->repository->getTotalsCardsCategories();
 
         $totals_expenses = Helpers::calcValues([
             'expenses' => $expensesTotals,
-            'spendings' => $spendigsTotals,
+            'spendings' => $spendigsCategories,
             'cards' => $cardsTotals,
         ]);
 
@@ -45,10 +45,10 @@ class CategoriesService implements CategoriesServiceInterface
             return $revenue;
         }, $revenuesTotals);
 
-        $spendigsTotals = array_map(function ($spendig) {
+        $spendigsCategories = array_map(function ($spendig) {
             $spendig->total = Helpers::formatMoney($spendig->total);
             return $spendig;
-        }, $spendigsTotals);
+        }, $spendigsCategories);
 
         $cardsTotals = array_map(function ($card) {
             $card->total = Helpers::formatMoney($card->total);
@@ -58,13 +58,16 @@ class CategoriesService implements CategoriesServiceInterface
         $totals = [
             'expenses' => $expensesTotals,
             'revenues' => $revenuesTotals,
-            'spendings' => Helpers::groupBySpendingColumn($spendigsTotals),
-            'cards' => Helpers::groupByCardsColumn($cardsTotals),
+            'spendings' => $spendigsCategories,
+            'cards' => $cardsTotals,
+        ];
+
+        $totalsCalculed = [
             'total_expenses' => Helpers::formatMoney($totals_expenses),
             'total_revenues' => Helpers::formatMoney($totals_revenues),
             'balance' => Helpers::formatMoney($totals_revenues - $totals_expenses)
         ];
 
-        return response()->json(['data' => $totals], 200);
+        return response()->json(['totals' => $totals, 'balance' => $totalsCalculed], 200);
     }
 }

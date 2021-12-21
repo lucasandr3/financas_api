@@ -95,21 +95,6 @@ class Helpers
         return $dataMonths;
     }
 
-    public static function groupBySpendingColumn($data)
-    {
-        usort($data, function ($a, $b) {
-            return $a->title >= $b->title;
-        });
-
-        $groupData = [];
-
-        foreach ($data as $k => $d) {
-            $groupData[self::cleanString($d->title)][] = $d;
-        }
-
-        return $groupData;
-    }
-
     public static function groupByCardsColumn($data)
     {
         usort($data, function ($a, $b) {
