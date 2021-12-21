@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Http\Repositories\Modules\Receipts;
 
-use App\Http\Interfaces\Repositories\CardsRepositoryInterface;
-use App\Models\Card;
+use App\Http\Interfaces\Repositories\Modules\Receipts\ReceiptsRepositoryInterface;
+use App\Models\Modules\Receipts\Receipts;
 use Illuminate\Support\Facades\DB;
 
-class CardsRepository implements CardsRepositoryInterface
+class ReceiptsRepository implements ReceiptsRepositoryInterface
 {
 
-    public function getAllCards()
+    public function allReceipts()
     {
-        return DB::table('cards')
-            ->where('user_id', auth()->user()->getAuthIdentifier())
-            ->get()
-        ->toArray();
+        return Receipts::all();
     }
 
     public function getCardById(int $card)

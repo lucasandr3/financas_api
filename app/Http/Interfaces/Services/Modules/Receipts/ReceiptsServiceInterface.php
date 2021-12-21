@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Interfaces\Services;
+namespace App\Http\Interfaces\Services\Modules\Receipts;
 
-interface CardsServiceInterface
+interface ReceiptsServiceInterface
 {
-    public function allCards();
+    public function allReceitps();
 
     public function getCard(int $card);
 

@@ -158,3 +158,21 @@ $router->get('/404', function () use ($router) {
     return response()->json(['message' => 'Endpoint não existe'], 404);
 });
 
+/* =========================== */
+        /* Modulos */
+/* =========================== */
+
+// rota de receipts
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/receipts'
+], function () use ($router) {
+    $router->get('/', '\App\Http\Controllers\Modules\Receipts\ReceiptsController@receipts');
+    $router->get('/{revenue}', 'RevenueController@revenueById');
+    $router->post('/edit/{revenue}', 'RevenueController@editRevenue');
+    $router->get('/installments/{revenue}', 'RevenueController@installments');
+    $router->post('new', 'RevenueController@newRevenue');
+    $router->delete('delete/{revenue}', 'RevenueController@deleteRevenue');
+    $router->put('edit/{revenue}', 'RevenueController@editRevenue');
+});
+

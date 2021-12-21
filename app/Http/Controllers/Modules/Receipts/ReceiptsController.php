@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules\Receipts;
 
-use App\Http\Interfaces\Services\CardsServiceInterface;
+use App\Http\Controllers\Controller;
+use App\Http\Interfaces\Services\Modules\Receipts\ReceiptsServiceInterface;
 use Illuminate\Http\Request;
-use App\Models\Traits\UserIDTrait;
 
-class CardsController extends Controller
+class ReceiptsController extends Controller
 {
     private $service;
 
     public function __construct
     (
-        CardsServiceInterface $service
+        ReceiptsServiceInterface $service
     )
     {
         $this->service = $service;
     }
 
-    public function myCards()
+    public function receipts()
     {
-        return $this->service->allCards();
+        return $this->service->allReceitps();
     }
 
     public function cardById(Request $request, int $card)

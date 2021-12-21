@@ -1,25 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Modules\Receipts;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Card extends Model
+class Receipts extends Model
 {
-    protected $table = "cards";
+    protected $table = "receipts";
     protected $fillable = ['*'];
     public $timestamps = false;
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function($model) {
-            $model->user_id = auth()->user()->getAuthIdentifier();
-        });
-
-        static::retrieved(function($model) {
-            $model->user_id = auth()->user()->getAuthIdentifier();
-        });
-    }
 }

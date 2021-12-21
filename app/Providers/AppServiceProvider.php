@@ -60,5 +60,9 @@ class AppServiceProvider extends ServiceProvider
         // Binds Clientes
         $this->app->bind(\App\Http\Interfaces\Services\CustomersServiceInterface::class, \App\Http\Services\CustomersService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\CustomersRepositoryInterface::class, \App\Http\Repositories\CustomersRepository::class);
+
+        // Binds Receitps
+        $this->app->bind(\App\Http\Interfaces\Services\Modules\Receipts\ReceiptsServiceInterface::class, \App\Http\Services\Modules\Receipts\ReceitpsService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Receipts\ReceiptsRepositoryInterface::class, \App\Http\Repositories\Modules\Receipts\ReceiptsRepository::class);
     }
 }

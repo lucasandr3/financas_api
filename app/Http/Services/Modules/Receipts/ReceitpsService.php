@@ -1,55 +1,29 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Modules\Receipts;
 
 use App\Helpers\Constants;
 use App\Helpers\Helpers;
-use App\Http\Interfaces\Repositories\CardsRepositoryInterface;
-use App\Http\Interfaces\Services\CardsServiceInterface;
+use App\Http\Interfaces\Repositories\Modules\Receipts\ReceiptsRepositoryInterface;
+use App\Http\Interfaces\Services\Modules\Receipts\ReceiptsServiceInterface;
 use Illuminate\Support\Facades\Validator;
 
-class CardsService implements CardsServiceInterface
+class ReceitpsService implements ReceiptsServiceInterface
 {
     private $repository;
 
     public function __construct
     (
-        CardsRepositoryInterface $repository
+        ReceiptsRepositoryInterface $repository
     )
     {
         $this->repository = $repository;
     }
 
-    public function allCards()
+    public function allReceitps()
     {
-        $cards = $this->repository->getAllCards();
-
-        $cards = array_map(function ($card) {
-            $card->limit_card = Helpers::formatMoney($card->limit_card);
-            $card->percent_alert = $card->percent_alert . "%";
-            $card->annuity = ($card->annuity) ? Helpers::formatMoney($card->annuity) : 'Não Informado';
-
-            $expenses = $this->getExpensesByCard($card->id);
-
-            if ($expenses) {
-                $card->expenses = $expenses;
-            }
-
-            $totalExpenses = $this->repository->getTotalExpensesByCard($card->id);
-            $limitCard = $this->repository->getLimitByCard($card->id);
-
-            $totals = [
-                'total_expenses' => Helpers::formatMoney($totalExpenses),
-                'limit_card' => Helpers::formatMoney($limitCard->limit_card),
-                'current_limit' => Helpers::formatMoney($limitCard->limit_card - $totalExpenses)
-            ];
-
-            $card->totals = $totals;
-
-            return $card;
-        }, $cards);
-
-        return response()->json($cards, 201);
+        $receipts = $this->repository->allReceipts();
+        return response()->json($receipts, 200);
     }
 
     public function getCard(int $card)

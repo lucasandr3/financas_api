@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Interfaces\Repositories;
+namespace App\Http\Interfaces\Repositories\Modules\Receipts;
 
-interface CardsRepositoryInterface
+interface ReceiptsRepositoryInterface
 {
-    public function getAllCards();
+    public function allReceipts();
 
     public function getCardById(int $card);
 
