@@ -112,6 +112,7 @@ class SpendingService implements SpendingServiceInterface
         $expenses = array_map(function($expense) {
             $expense->value = Helpers::formatMoney($expense->value);
             $expense->installments = ($expense->installments === 0) ? 'Pagamento único' : 'Parcelado';
+            $expense->date_spending_expense = Helpers::formatDateSimple($expense->date_spending_expense);
             $expense->installments_object = ($expense->installments !== 0) ? $this->getInstallmentsBySpendingExpense($expense->id) : null;
             $expense->photo = ($expense->photo) ? url('storage/' . $expense->photo) : null;
             return $expense;
