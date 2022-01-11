@@ -70,6 +70,14 @@ class AppServiceProvider extends ServiceProvider
         /* =========================== */
 
         /* =========================== */
+        /* Reports */
+        /* =========================== */
+
+        // Binds Receitps
+        $this->app->bind(\App\Http\Interfaces\Services\Modules\Reports\ReportsServiceInterface::class, \App\Http\Services\Modules\Reports\ReportsService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Reports\ReportsRepositoryInterface::class, \App\Http\Repositories\Modules\Reports\ReportsRepository::class);
+
+        /* =========================== */
         /* Hotmart */
         /* =========================== */
 
