@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use DateTime;
+
 class Helpers
 {
     public static function formatMoney(float $value, int $precision = 2): string
@@ -195,5 +197,47 @@ class Helpers
         $text = strtolower($text);
 
         return $text;
+    }
+
+    public static function statusHotmart($status)
+    {
+        $response = '';
+
+        switch ($status) {
+            case 'ACTIVE':
+                $response = 'Ativo';
+                break;
+            case 'INACTIVE':
+                $response = 'Inativo';
+                break;
+            case 'DELAYED':
+                $response = 'Atrasado';
+                break;
+            case 'CANCELLED_BY_CUSTOMER':
+                $response = 'Cancelado pelo Cliente';
+                break;
+            case 'CANCELLED_BY_SELLER':
+                $response = 'Cancelado pelo Comprador';
+                break;
+            case 'CANCELLED_BY_ADMIN':
+                $response = 'Cancelado pelo Administrador';
+                break;
+            case 'STARTED':
+                $response = 'Iniciada';
+                break;
+            case 'OVERDUE':
+                $response = 'Atrasada';
+                break;
+        }
+
+        return $response;
+    }
+
+    public static function formataHoraMilesegundos($hora)
+    {
+        $micro = sprintf("%06d",($hora - floor($hora)) * 1000000);
+        $d = new DateTime( date('Y-m-d H:i:s.'.$micro, $hora) );
+
+        return $d->format("d/m/Y H:i");
     }
 }

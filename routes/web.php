@@ -162,6 +162,24 @@ $router->get('/404', function () use ($router) {
         /* Modulos */
 /* =========================== */
 
+/* =========================== */
+/* Hotmart */
+/* =========================== */
+
+// rota de assinaturas
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/hotmart/assinaturas'
+], function () use ($router) {
+    $router->get('/', '\App\Http\Controllers\Modules\Hotmart\AssinaturaController@assinaturas');
+    $router->get('/{revenue}', 'RevenueController@revenueById');
+    $router->post('/edit/{revenue}', 'RevenueController@editRevenue');
+    $router->get('/installments/{revenue}', 'RevenueController@installments');
+    $router->post('new', 'RevenueController@newRevenue');
+    $router->delete('delete/{revenue}', 'RevenueController@deleteRevenue');
+    $router->put('edit/{revenue}', 'RevenueController@editRevenue');
+});
+
 // rota de receipts
 $router->group([
 //    'middleware' => 'auth',

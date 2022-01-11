@@ -16,4 +16,8 @@ class Constants
     // dados iniciais clientes
     const SEM_RESTRICAO = 1;
     const SCORE = 3;
+
+    //hotmart
+    const API_SANDBOX = 'https://sandbox.hotmart.com/payments/api/v1';
+    const API_PRODUCAO = 'https://developers.hotmart.com/payments/api/v1';
 }

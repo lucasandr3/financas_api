@@ -64,5 +64,17 @@ class AppServiceProvider extends ServiceProvider
         // Binds Receitps
         $this->app->bind(\App\Http\Interfaces\Services\Modules\Receipts\ReceiptsServiceInterface::class, \App\Http\Services\Modules\Receipts\ReceitpsService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Receipts\ReceiptsRepositoryInterface::class, \App\Http\Repositories\Modules\Receipts\ReceiptsRepository::class);
+
+        /* =========================== */
+        /* Modulos */
+        /* =========================== */
+
+        /* =========================== */
+        /* Hotmart */
+        /* =========================== */
+
+        // Binds assinaturas
+        $this->app->bind(\App\Http\Interfaces\Services\Modules\Hotmart\AssinaturaServiceInterface::class, \App\Http\Services\Modules\Hotmart\AssinaturaService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Hotmart\AssinaturaRepositoryInterface::class, \App\Http\Repositories\Modules\Hotmart\AssinaturaRepository::class);
     }
 }
