@@ -23,6 +23,10 @@ class AssinaturaService implements AssinaturaServiceInterface
     {
         $assinaturas = $this->repository->getAssinaturas();
 
+//        if(isset($assinaturas['code'])) {
+//            return $assinaturas;
+//        }
+
         $items = $assinaturas->items;
 
         $items = array_map(function($item) {
@@ -30,13 +34,12 @@ class AssinaturaService implements AssinaturaServiceInterface
             $item->status = Helpers::statusHotmart($item->status);
             $item->accession_date = Helpers::formataHoraMilesegundos($item->accession_date);
             $item->request_date = Helpers::formataHoraMilesegundos($item->request_date);
-            echo "<pre>";
-            var_dump($item);
-            echo "</pre>";
-            die;
             return $item;
         }, $items);
-
+echo "<pre>";
+var_dump($items);
+echo "</pre>";
+die;
         return $assinaturas->items;
     }
 

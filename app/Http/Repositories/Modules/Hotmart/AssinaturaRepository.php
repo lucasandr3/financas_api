@@ -18,7 +18,10 @@ class AssinaturaRepository implements AssinaturaRepositoryInterface
 
     public function getAssinaturas()
     {
-        $assinaturas = $this->api->get('/subscriptions?status=CANCELLED_BY_SELLER&status=ACTIVE');
+        $assinaturas = $this->api->get('/subscriptions');
+        if(isset($assinaturas['code'])) {
+            return $assinaturas;
+        }
         return json_decode($assinaturas);
     }
 

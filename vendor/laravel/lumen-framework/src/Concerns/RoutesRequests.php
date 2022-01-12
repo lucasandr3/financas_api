@@ -230,8 +230,7 @@ trait RoutesRequests
     {
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-//                throw new NotFoundHttpException;
-                return $this->handleFoundRoute([true, $this->router->getRoutes()['GET/404']['action'], []]);
+                throw new NotFoundHttpException;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 throw new MethodNotAllowedHttpException($routeInfo[1]);
             case Dispatcher::FOUND:

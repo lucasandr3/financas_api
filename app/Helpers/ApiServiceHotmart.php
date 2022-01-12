@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 
 class ApiServiceHotmart
 {
+    private $token;
+
     public function Auth()
     {
         $response = Http::withHeaders([
@@ -14,38 +16,32 @@ class ApiServiceHotmart
         ])->post('https://api-sec-vlc.hotmart.com/security/oauth/token?grant_type=client_credentials&client_id='.$_ENV['HT_CLIENTID'].'&client_secret='.$_ENV['HT_CLIENTSECRET'].'');
 
         setcookie('hotmart', $response->body());
+        $this->token = json_decode($response->body());
     }
 
     public function getToken()
     {
-        return json_decode($_COOKIE['hotmart']);
+        if(!isset($_COOKIE['hotmart'])) {
+            $this->Auth();
+            return $this->token;
+        }
+
+        return $this->token = json_decode($_COOKIE['hotmart']);
     }
 
     public function get($endpoint)
     {
         $token = $this->getToken()->access_token;
 
-        if($token) {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' .$token. ""
+        ])->get(Constants::API_SANDBOX.$endpoint);
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer '.$token.""
-            ])->get(Constants::API_SANDBOX.$endpoint);
-
-            return $response->body();
-
-        } else {
-
-            $this->Auth();
-            $token = $this->getToken()->access_token;
-
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Basic '.$token.""
-            ])->get(Constants::API_SANDBOX.$endpoint);
-
-            return $response->body();
+        if($response->status() === 404) {
+            return ['message' => 'Serviço Hotmart em Manutenção e/ou fora do ar', 'code' => 404];
         }
 
+        return $response->body();
     }
 }

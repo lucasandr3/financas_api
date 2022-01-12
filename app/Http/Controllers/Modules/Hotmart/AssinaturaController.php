@@ -19,10 +19,7 @@ class AssinaturaController extends Controller
 
     public function assinaturas()
     {
-        echo "<pre>";
-        var_dump($this->service->assinaturas());
-        echo "</pre>";
-        die;;
+        return $this->service->assinaturas();
     }
 
     public function comprasAssinantes()
