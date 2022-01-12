@@ -172,12 +172,30 @@ $router->group([
     'prefix' => 'api/hotmart/assinaturas'
 ], function () use ($router) {
     $router->get('/', '\App\Http\Controllers\Modules\Hotmart\AssinaturaController@assinaturas');
-    $router->get('/{revenue}', 'RevenueController@revenueById');
-    $router->post('/edit/{revenue}', 'RevenueController@editRevenue');
-    $router->get('/installments/{revenue}', 'RevenueController@installments');
-    $router->post('new', 'RevenueController@newRevenue');
-    $router->delete('delete/{revenue}', 'RevenueController@deleteRevenue');
-    $router->put('edit/{revenue}', 'RevenueController@editRevenue');
+    $router->get('/assinante/compras/{assinante}', '\App\Http\Controllers\Modules\Hotmart\AssinaturaController@comprasAssinantes');
+    $router->get('/cancelar/assinatura/{assinante}', '\App\Http\Controllers\Modules\Hotmart\AssinaturaController@cancelarAssinatura');
+});
+
+// rota de Vendas
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/hotmart/vendas'
+], function () use ($router) {
+    $router->get('/historico', '\App\Http\Controllers\Modules\Hotmart\VendaController@historicoVendas');
+    $router->get('/paginas/{modulo}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@paginas');
+    $router->get('/{subDomain}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@alunos');
+    $router->get('/progresso/aluno/{aluno}/{subDomain}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@progresso');
+});
+
+// rota de area de membros
+$router->group([
+//    'middleware' => 'auth',
+    'prefix' => 'api/hotmart/alunos'
+], function () use ($router) {
+    $router->get('/modulos/{subDomain}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@modulos');
+    $router->get('/paginas/{modulo}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@paginas');
+    $router->get('/{subDomain}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@alunos');
+    $router->get('/progresso/aluno/{aluno}/{subDomain}', '\App\Http\Controllers\Modules\Hotmart\AlunosController@progresso');
 });
 
 // rota de receipts

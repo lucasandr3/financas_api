@@ -19,20 +19,30 @@ class AssinaturaRepository implements AssinaturaRepositoryInterface
     public function getAssinaturas()
     {
         $assinaturas = $this->api->get('/subscriptions');
-        if(isset($assinaturas['code'])) {
-            return $assinaturas;
+        if(isset($compras->code)) {
+            return $compras;
         }
         return json_decode($assinaturas);
     }
 
-    public function getComprasAssinantes()
+    public function getComprasAssinantes($assinante)
     {
-        // TODO: Implement getComprasAssinantes() method.
+        $compras = $this->api->get('/subscriptions/'.$assinante.'/purchases');
+
+        if(isset($compras->code)) {
+            return $compras;
+        }
+        return json_decode($compras);
     }
 
-    public function cancelarAssinaturaUpdate()
+    public function cancelarAssinaturaUpdate($assinante)
     {
-        // TODO: Implement cancelarAssinaturaUpdate() method.
+        $retorno = $this->api->post('/subscriptions/'.$assinante.'/cancel');
+
+        if(isset($retorno->code)) {
+            return $retorno;
+        }
+        return json_decode($retorno);
     }
 
     public function cancelarListaAssinaturasUpdate()

@@ -4,11 +4,11 @@ namespace App\Http\Interfaces\Repositories\Modules\Hotmart;
 
 interface AlunosRepositoryInterface
 {
-    public function getModulos();
+    public function getModulos($subDomain);
 
-    public function getPaginas();
+    public function getPaginas($modulo);
 
-    public function getAlunos();
+    public function getAlunos($subDomain);
 
-    public function getProgresso();
+    public function getProgresso($aluno, $subDomain);
 }

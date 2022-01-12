@@ -233,11 +233,164 @@ class Helpers
         return $response;
     }
 
+    public static function tipoMetodoPagamento($metodo)
+    {
+        $response = '';
+
+        switch ($metodo) {
+            case 'BILLET':
+                $response = 'Boleto';
+                break;
+            case 'PAYPAL':
+                $response = 'Paypal';
+                break;
+            case 'BANCO_BRASIL_ONLINE_TRANSFER':
+                $response = 'Transferência Banco do Brasil';
+                break;
+            case 'BRADESCO_ONLINE_TRANSFER':
+                $response = 'Transferência Banco Bradesco';
+                break;
+            case 'ITAU_ONLINE_TRANSFER':
+                $response = 'Transferência Banco Itaú';
+                break;
+            case 'VISA_CREDIT_CARD':
+                $response = 'Cartão de Crédito Visa';
+                break;
+            case 'MASTERCARD_CREDIT_CARD':
+                $response = 'Cartão de Crédito Mastercard';
+                break;
+            case 'AMERICAN_EXPRESS_CREDIT_CARD':
+                $response = 'Cartão de Crédito American Express';
+                break;
+            case 'AURA_CREDIT_CARD':
+                $response = 'Cartão de Crédito Aura';
+                break;
+            case 'DINERS_CREDIT_CARD':
+                $response = 'Cartão de Crédito Diners';
+                break;
+            case 'HIPERCARD_CREDIT_CARD':
+                $response = 'Cartão de Crédito Hipercard';
+                break;
+            case 'ELO_CREDIT_CARD':
+                $response = 'Cartão de Crédito Elo';
+                break;
+            case 'HOTMART':
+                $response = 'Hotmart';
+                break;
+            case 'BANK_DEBT':
+                $response = 'Débito Bancário';
+                break;
+            case 'DISCOVER_CREDIT_CARD':
+                $response = 'Cartão de Crédito Discover';
+                break;
+            case 'SEPA_DIRECT_DEBT':
+            case 'MULTIBANK':
+                $response = 'SEPA Débito / MULTIBANK';
+                break;
+        }
+
+        return $response;
+    }
+
+    public static function tipoPagamento($tipo)
+    {
+        $response = '';
+
+        switch ($tipo) {
+            case 'BILLET':
+                $response = 'Boleto';
+                break;
+            case 'CREDIT_CARD':
+                $response = 'Cartão de Crédito';
+                break;
+            case 'PAYPAL':
+                $response = 'Paypal';
+                break;
+            case 'BANK_DEBT':
+                $response = 'Dédito Bancário';
+                break;
+            case 'HOTMART_BALANCE':
+                $response = 'Saldo Hotmart';
+                break;
+            case 'CASH_PAYMENT':
+                $response = 'Dinheiro';
+                break;
+            case 'SAMSUNG_PAY':
+                $response = 'Samsung pay';
+                break;
+            case 'GOOGLE_PAY':
+                $response = 'Google pay';
+                break;
+        }
+
+        return $response;
+    }
+
+    public static function statusCompra($status)
+    {
+        $response = '';
+
+        switch ($status) {
+            case 'STARTED':
+                $response = 'Iniciada';
+                break;
+            case 'PROCESSING_TRANSACTION':
+                $response = 'Processando Transação';
+                break;
+            case 'COMPLETE':
+                $response = 'Finalizado';
+                break;
+            case 'PRINTED_BILLET':
+                $response = 'Imprimiu o Boleto';
+                break;
+            case 'WAITING_PAYMENT':
+                $response = 'Aguardando Pagamento';
+                break;
+            case 'APPROVED':
+                $response = 'Aprovada';
+                break;
+            case 'UNDER_ANALISYS':
+                $response = 'Sob Análise';
+                break;
+            case 'CANCELLED':
+                $response = 'Cancelada';
+                break;
+            case 'PROTESTED':
+                $response = 'Protesto';
+                break;
+            case 'REFUNDED':
+                $response = 'Devolveu';
+                break;
+            case 'CHARGEBACK':
+                $response = 'Estorno';
+                break;
+            case 'BLOCKED':
+                $response = 'Bloqueado';
+                break;
+            case 'OVERDUE':
+                $response = 'Atrasada';
+                break;
+            case 'PRE_ORDER':
+                $response = 'Pedido Antecipado';
+                break;
+            case 'NO_FUNDS':
+                $response = 'Sem Fundos';
+                break;
+            case 'EXPIRED':
+                $response = 'Expirada';
+                break;
+        }
+
+        return $response;
+    }
+
     public static function formataHoraMilesegundos($hora)
     {
         $micro = sprintf("%06d",($hora - floor($hora)) * 1000000);
         $d = new DateTime( date('Y-m-d H:i:s.'.$micro, $hora) );
 
-        return $d->format("d/m/Y H:i");
+        $dia = $d->format("d/m/Y");
+        $hora = " às " . $d->format("H:i");
+        return $dia . $hora;
     }
 }

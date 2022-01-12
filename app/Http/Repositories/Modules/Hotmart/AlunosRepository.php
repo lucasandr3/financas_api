@@ -2,28 +2,57 @@
 
 namespace App\Http\Repositories\Modules\Hotmart;
 
+use App\Helpers\ApiServiceHotmart;
 use App\Http\Interfaces\Repositories\Modules\Hotmart\AlunosRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class AlunosRepository implements AlunosRepositoryInterface
 {
-    public function getModulos()
+    private $api;
+
+    public function __construct(ApiServiceHotmart $api)
     {
-        // TODO: Implement getModulos() method.
+        $this->api = $api;
     }
 
-    public function getPaginas()
+    public function getModulos($subDomain)
     {
-        // TODO: Implement getPaginas() method.
+        $retorno = $this->api->get('/modules?subdomain='.$subDomain.'&is_extra=true');
+
+        if(isset($retorno->code)) {
+            return $retorno;
+        }
+        return json_decode($retorno);
     }
 
-    public function getAlunos()
+    public function getPaginas($modulo)
     {
-        // TODO: Implement getAlunos() method.
+        $retorno = $this->api->get('/modules/'.$modulo.'/pages');
+
+        if(isset($retorno->code)) {
+            return $retorno;
+        }
+        return json_decode($retorno);
     }
 
-    public function getProgresso()
+    public function getAlunos($subDomain)
     {
-        // TODO: Implement getProgresso() method.
+        $retorno = $this->api->get('/users?subdomain='.$subDomain.'');
+
+        if(isset($retorno->code)) {
+            return $retorno;
+        }
+        return json_decode($retorno);
+    }
+
+    public function getProgresso($aluno, $subDomain)
+    {
+        $retorno = $this->api->get('/users/'.$aluno.'/lessons?subdomain='.$subDomain.'');
+
+        if(isset($retorno->code)) {
+            return $retorno;
+        }
+
+        return json_decode($retorno);
     }
 }

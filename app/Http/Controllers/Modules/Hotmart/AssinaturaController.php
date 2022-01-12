@@ -22,14 +22,18 @@ class AssinaturaController extends Controller
         return $this->service->assinaturas();
     }
 
-    public function comprasAssinantes()
+    public function comprasAssinantes($assinante)
     {
-        return $this->service->comprasAssinantes();
+        // id errado X53ZPFQZ
+        // id certo B2HNQAXJ
+        return $this->service->comprasAssinantes($assinante);
     }
 
-    public function cancelarAssinatura()
+    public function cancelarAssinatura($assinante)
     {
-        return $this->service->cancelarAssinatura();
+        // id errado X53ZPFQZ
+        // id certo B2HNQAXJ
+        return $this->service->cancelarAssinatura($assinante);
     }
 
     public function cancelarListaAssinaturas()

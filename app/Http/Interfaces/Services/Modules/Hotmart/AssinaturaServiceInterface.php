@@ -6,9 +6,9 @@ interface AssinaturaServiceInterface
 {
     public function assinaturas();
 
-    public function comprasAssinantes();
+    public function comprasAssinantes($assinante);
 
-    public function cancelarAssinatura();
+    public function cancelarAssinatura($assinante);
 
     public function cancelarListaAssinaturas();
 

@@ -84,5 +84,13 @@ class AppServiceProvider extends ServiceProvider
         // Binds assinaturas
         $this->app->bind(\App\Http\Interfaces\Services\Modules\Hotmart\AssinaturaServiceInterface::class, \App\Http\Services\Modules\Hotmart\AssinaturaService::class);
         $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Hotmart\AssinaturaRepositoryInterface::class, \App\Http\Repositories\Modules\Hotmart\AssinaturaRepository::class);
+
+        // Binds alunos
+        $this->app->bind(\App\Http\Interfaces\Services\Modules\Hotmart\VendaServiceInterface::class, \App\Http\Services\Modules\Hotmart\VendaService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Hotmart\VendaRepositoryInterface::class, \App\Http\Repositories\Modules\Hotmart\VendaRepository::class);
+
+        // Binds alunos
+        $this->app->bind(\App\Http\Interfaces\Services\Modules\Hotmart\AlunosServiceInterface::class, \App\Http\Services\Modules\Hotmart\AlunosService::class);
+        $this->app->bind(\App\Http\Interfaces\Repositories\Modules\Hotmart\AlunosRepositoryInterface::class, \App\Http\Repositories\Modules\Hotmart\AlunosRepository::class);
     }
 }

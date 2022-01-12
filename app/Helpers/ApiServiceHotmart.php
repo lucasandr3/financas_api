@@ -39,7 +39,23 @@ class ApiServiceHotmart
         ])->get(Constants::API_SANDBOX.$endpoint);
 
         if($response->status() === 404) {
-            return ['message' => 'Serviço Hotmart em Manutenção e/ou fora do ar', 'code' => 404];
+            return (Object)['message' => 'Serviço Hotmart em Manutenção e/ou fora do ar', 'code' => 404];
+        }
+
+        return $response->body();
+    }
+
+    public function post($endpoint, $body = null)
+    {
+        $token = $this->getToken()->access_token;
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' .$token. ""
+        ])->withBody(json_encode(['send_mail' => false]), 'raw')->post(Constants::API_SANDBOX.$endpoint);
+
+        if($response->status() === 404) {
+            return (Object)['message' => 'Serviço Hotmart em Manutenção e/ou fora do ar', 'code' => 404];
         }
 
         return $response->body();

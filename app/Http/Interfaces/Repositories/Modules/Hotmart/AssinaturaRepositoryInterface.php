@@ -6,9 +6,9 @@ interface AssinaturaRepositoryInterface
 {
     public function getAssinaturas();
 
-    public function getComprasAssinantes();
+    public function getComprasAssinantes($assinante);
 
-    public function cancelarAssinaturaUpdate();
+    public function cancelarAssinaturaUpdate($assinante);
 
     public function cancelarListaAssinaturasUpdate();
 

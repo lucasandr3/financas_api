@@ -18,23 +18,23 @@ class AlunosController extends Controller
         $this->service = $service;
     }
 
-    public function modulos()
+    public function modulos($subDomain)
     {
-        return $this->service->modulos();
+        return $this->service->modulos($subDomain);
     }
 
-    public function paginas()
+    public function paginas($modulo)
     {
-        return $this->service->paginas();
+        return $this->service->paginas($modulo);
     }
 
-    public function alunos()
+    public function alunos($subDomain)
     {
-        return $this->service->alunos();
+        return $this->service->alunos($subDomain);
     }
 
-    public function progresso()
+    public function progresso($aluno, $subDomain)
     {
-        return $this->service->progresso();
+        return $this->service->progresso($aluno, $subDomain);
     }
 }

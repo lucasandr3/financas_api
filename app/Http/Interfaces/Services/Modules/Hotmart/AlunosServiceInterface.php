@@ -4,11 +4,11 @@ namespace App\Http\Interfaces\Services\Modules\Hotmart;
 
 interface AlunosServiceInterface
 {
-    public function modulos();
+    public function modulos($subDomain);
 
-    public function paginas();
+    public function paginas($modulo);
 
-    public function alunos();
+    public function alunos($subDomain);
 
-    public function progresso();
+    public function progresso($aluno, $subDomain);
 }

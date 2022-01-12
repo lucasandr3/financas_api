@@ -20,26 +20,51 @@ class VendaService implements VendaServiceInterface
 
     public function historicoVendas()
     {
-        // TODO: Implement historicoVendas() method.
+        $vendas = $this->repository->getHistoricoVendas();
+
+        echo "<pre>";
+        var_dump($vendas);
+        echo "</pre>";
+        die;
     }
 
     public function sumarioVendas()
     {
-        // TODO: Implement sumarioVendas() method.
+        $sumario = $this->repository->getSumarioVendas();
+
+        echo "<pre>";
+        var_dump($sumario);
+        echo "</pre>";
+        die;
     }
 
     public function participantesVendas()
     {
-        // TODO: Implement participantesVendas() method.
+        $participantes = $this->repository->getParticipantesVendas();
+
+        echo "<pre>";
+        var_dump($participantes);
+        echo "</pre>";
+        die;
     }
 
     public function comissaoVendas()
     {
-        // TODO: Implement comissaoVendas() method.
+        $comissao  = $this->repository->getComissaoVendas();
+
+        echo "<pre>";
+        var_dump($comissao);
+        echo "</pre>";
+        die;
     }
 
     public function detalhesPrecosVendas()
     {
-        // TODO: Implement detalhesPrecosVendas() method.
+        $detalhes = $this->repository->getDetalhesPrecosVendas();
+
+        echo "<pre>";
+        var_dump($detalhes);
+        echo "</pre>";
+        die;
     }
 }
