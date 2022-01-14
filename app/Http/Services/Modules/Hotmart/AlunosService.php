@@ -23,10 +23,6 @@ class AlunosService implements AlunosServiceInterface
         // subDomain = my_subdomain
         $modulos = $this->repository->getModulos($subDomain);
 
-        echo "<pre>";
-        var_dump($modulos);
-        echo "</pre>";
-        die;
     }
 
     public function paginas($modulo)
@@ -35,10 +31,6 @@ class AlunosService implements AlunosServiceInterface
         // modulos = 2Z7RAMXEJW | D64L09Q4JW | DPEA5MOEWE | J14OKVB4PL | V94JMXYOGZ
         $paginas = $this->repository->getPaginas($modulo);
 
-        echo "<pre>";
-        var_dump($paginas);
-        echo "</pre>";
-        die;
     }
 
     public function alunos($subDomain)
@@ -46,10 +38,6 @@ class AlunosService implements AlunosServiceInterface
         // subDomain = my_subdomain
         $alunos = $this->repository->getAlunos($subDomain);
 
-        echo "<pre>";
-        var_dump($alunos);
-        echo "</pre>";
-        die;
     }
 
     public function progresso($aluno, $subDomain)
@@ -58,9 +46,5 @@ class AlunosService implements AlunosServiceInterface
         // alunos = N2OM623N46 | WX7WPWRQO2 | ZYOMWXLDED
         $progresso = $this->repository->getProgresso($aluno, $subDomain);
 
-        echo "<pre>";
-        var_dump($progresso);
-        echo "</pre>";
-        die;
     }
 }
